@@ -1,7 +1,7 @@
 function checkAuth(request, env) {
   const auth = request.headers.get("Authorization") || "";
-  const token = auth.replace("Bearer ", "");
-  return token === env.ADMIN_PASSWORD;
+  const token = auth.replace("Bearer ", "").trim();
+  return token === (env.ADMIN_PASSWORD || "").trim();
 }
 
 export async function onRequestPost({ request, env }) {
