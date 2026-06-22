@@ -162,10 +162,12 @@
   <h1>St. Chads — Admin</h1>
 
   <div id="auth-screen">
-    <label for="password-input">Password</label>
-    <input type="password" id="password-input" autocomplete="current-password" placeholder="Enter admin password" />
-    <button id="login-btn">Login</button>
-    <p id="auth-error">Incorrect password.</p>
+    <form id="login-form" onsubmit="return false;">
+      <label for="password-input">Password</label>
+      <input type="password" id="password-input" autocomplete="current-password" placeholder="Enter admin password" />
+      <button type="submit" id="login-btn">Login</button>
+      <p id="auth-error" style="display:none;color:#c00;margin-top:6px;font-size:13px;"></p>
+    </form>
   </div>
 
   <div id="admin-panel" style="display:none;">
@@ -254,13 +256,24 @@
 
 <script>
 let password = "";
-let mediaItems = []; // {type, src/id/platform, role?}
+let mediaItems = [];
 
-// ---- Auth ----
-document.getElementById("password-input").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") login();
-});
-document.getElementById("login-btn").addEventListener("click", login);
+function escHtml(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById("status");
+  el.textContent = msg;
+  el.className = type;
+  el.style.display = "block";
+  setTimeout(() => { el.style.display = "none"; }, 5000);
+}
 
 async function login() {
   const pw = document.getElementById("password-input").value.trim();
@@ -503,23 +516,17 @@ document.getElementById("reset-btn").addEventListener("click", async () => {
   else showStatus("Reset failed.", "err");
 });
 
-// ---- Helpers ----
-function showStatus(msg, type) {
-  const el = document.getElementById("status");
-  el.textContent = msg;
-  el.className = type;
-  el.style.display = "block";
-  setTimeout(() => { el.style.display = "none"; }, 5000);
-}
-
-function escHtml(s) {
-  if (s == null) return "";
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+// ---- Wire up login form after DOM is ready ----
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    login();
+  });
+  document.getElementById("login-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+    login();
+  });
+});
 </script>
 </body>
 </html>
