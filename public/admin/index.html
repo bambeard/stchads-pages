@@ -265,20 +265,38 @@ document.getElementById("login-btn").addEventListener("click", login);
 async function login() {
   const pw = document.getElementById("password-input").value.trim();
   if (!pw) return;
-  // Verify by hitting the API
-  const res = await fetch("/api/exhibitions", {
-    headers: { Authorization: "Bearer " + pw },
-  });
-  if (res.ok) {
-    password = pw;
-    document.getElementById("auth-screen").style.display = "none";
-    document.getElementById("admin-panel").style.display = "block";
-    document.getElementById("auth-error").style.display = "none";
-    loadYear();
-    loadExhibitions();
-  } else {
+
+  const btn = document.getElementById("login-btn");
+  btn.disabled = true;
+  btn.textContent = "Checking…";
+
+  try {
+    const res = await fetch("/api/auth", {
+      headers: { Authorization: "Bearer " + pw },
+    });
+    const data = await res.json();
+
+    if (res.ok && data.ok) {
+      password = pw;
+      document.getElementById("auth-screen").style.display = "none";
+      document.getElementById("admin-panel").style.display = "block";
+      document.getElementById("auth-error").style.display = "none";
+      loadYear();
+      loadExhibitions();
+    } else if (res.status === 500) {
+      document.getElementById("auth-error").textContent = data.error || "Server error — check ADMIN_PASSWORD secret is set in CF Pages.";
+      document.getElementById("auth-error").style.display = "block";
+    } else {
+      document.getElementById("auth-error").textContent = "Incorrect password.";
+      document.getElementById("auth-error").style.display = "block";
+    }
+  } catch (e) {
+    document.getElementById("auth-error").textContent = "Network error: " + e.message;
     document.getElementById("auth-error").style.display = "block";
   }
+
+  btn.disabled = false;
+  btn.textContent = "Login";
 }
 
 function loadYear() {
