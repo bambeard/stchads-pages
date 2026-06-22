@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St. Chads</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Times, "Times New Roman", Georgia, serif;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #000;
+      background: #fff;
+    }
+
+    a { color: #000; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    #page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 20px 60px;
+    }
+
+    /* Header */
+    #header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    #header-left { flex: 1; }
+
+    #site-title {
+      font-size: 14px;
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+
+    #address { margin-bottom: 16px; }
+    #address p, #contact p { margin: 0; }
+
+    #header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    #instagram-logo img {
+      width: 80px;
+      height: 80px;
+      display: block;
+    }
+
+    /* Exhibitions */
+    .exhibition {
+      margin-bottom: 60px;
+    }
+
+    .exhibition-media {
+      width: 100%;
+    }
+
+    .exhibition-media img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-bottom: 4px;
+    }
+
+    .exhibition-media img.invite {
+      max-width: 400px;
+    }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      margin-bottom: 4px;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .exhibition-text {
+      margin-top: 16px;
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .loading {
+      padding: 40px 0;
+      color: #666;
+    }
+
+    @media (max-width: 640px) {
+      #header { flex-direction: column; gap: 16px; }
+      #header-right { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div id="page">
+  <div id="header">
+    <div id="header-left">
+      <p id="site-title">St. Chads</p>
+      <div id="address">
+        <a href="https://goo.gl/maps/W4tXKJJZRyR8Xgb18" target="_blank" rel="noopener">
+          <p>42 Wicklow St</p>
+          <p>Kings Cross</p>
+          <p>London WC1X 9JS</p>
+          <p>&nbsp;</p>
+          <p>51°31'45.9&quot;N 0°07'05.3&quot;W</p>
+        </a>
+      </div>
+      <div id="contact">
+        <p><a href="mailto:stchadsprojects@gmail.com">stchadsprojects@gmail.com</a></p>
+        <p><a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">@stchadsprojects</a></p>
+      </div>
+    </div>
+    <div id="header-right">
+      <a id="instagram-logo" href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">
+        <img src="https://www.stchadsprojects.com/images/bumprint2.jpg" alt="St. Chads Instagram" />
+      </a>
+    </div>
+  </div>
+
+  <div id="exhibitions">
+    <p class="loading">Loading…</p>
+  </div>
+</div>
+
+<script>
+(async function () {
+  const container = document.getElementById("exhibitions");
+
+  let data;
+  try {
+    const res = await fetch("/api/exhibitions");
+    data = await res.json();
+  } catch (e) {
+    container.innerHTML = "<p>Failed to load exhibitions.</p>";
+    return;
+  }
+
+  if (!data.exhibitions || data.exhibitions.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const html = data.exhibitions.map(renderExhibition).join("");
+  container.innerHTML = html;
+})();
+
+function renderExhibition(ex) {
+  const mediaHtml = (ex.media || []).map(renderMedia).join("");
+  const desc = (ex.description || "").trim();
+
+  return `<div class="exhibition" id="ex-${esc(ex.id)}">
+    <div class="exhibition-media">${mediaHtml}</div>
+    ${desc ? `<div class="exhibition-text">${esc(desc)}</div>` : ""}
+  </div>`;
+}
+
+function renderMedia(m) {
+  if (m.type === "image") {
+    const cls = m.role === "invite" ? " invite" : "";
+    return `<img class="${cls.trim()}" src="${esc(m.src)}" alt="" loading="lazy" />`;
+  }
+  if (m.type === "video") {
+    let src = "";
+    if (m.platform === "vimeo") {
+      src = `https://player.vimeo.com/video/${esc(m.id)}?title=0&byline=0&portrait=0&color=FFFFFF&autoplay=0&loop=1`;
+    } else if (m.platform === "youtube") {
+      src = `https://www.youtube.com/embed/${esc(m.id)}?loop=1&playlist=${esc(m.id)}&showinfo=0&modestbranding=1&controls=1`;
+    }
+    if (!src) return "";
+    return `<div class="video-embed"><iframe src="${src}" allowfullscreen></iframe></div>`;
+  }
+  return "";
+}
+
+function esc(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+</script>
+</body>
+</html>

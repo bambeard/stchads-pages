@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St. Chads — Admin</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      color: #000;
+      background: #fff;
+    }
+
+    #page { max-width: 800px; margin: 0 auto; padding: 30px 20px 60px; }
+
+    h1 { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
+    h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+
+    /* Auth screen */
+    #auth-screen { max-width: 320px; }
+    #auth-screen label { display: block; margin-bottom: 6px; }
+    #auth-screen input { width: 100%; padding: 8px; border: 1px solid #ccc; font-size: 14px; margin-bottom: 10px; }
+    #auth-error { color: #c00; margin-top: 6px; font-size: 13px; display: none; }
+
+    /* Sections */
+    .section { margin-bottom: 40px; }
+
+    /* Form */
+    .form-row { margin-bottom: 14px; }
+    .form-row label { display: block; margin-bottom: 4px; font-weight: 500; }
+    .form-row input,
+    .form-row textarea,
+    .form-row select {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-row textarea { height: 120px; resize: vertical; }
+    .form-hint { font-size: 12px; color: #666; margin-top: 3px; }
+
+    /* Media builder */
+    #media-list { border: 1px solid #eee; margin-bottom: 8px; }
+    .media-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .media-item:last-child { border-bottom: none; }
+    .media-item-label { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .media-item-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #999;
+      font-size: 16px;
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .media-item-remove:hover { color: #c00; }
+
+    /* Upload progress */
+    .upload-area {
+      border: 2px dashed #ccc;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #666;
+    }
+    .upload-area.dragover { border-color: #000; background: #f9f9f9; }
+    #upload-input { display: none; }
+    .upload-progress { font-size: 12px; color: #666; margin-top: 4px; }
+
+    /* Video embed */
+    .video-row { display: flex; gap: 8px; }
+    .video-row input { flex: 1; }
+
+    /* Buttons */
+    button, .btn {
+      padding: 8px 16px;
+      border: 1px solid #000;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button:hover { background: #333; }
+    .btn-secondary {
+      background: #fff;
+      color: #000;
+    }
+    .btn-secondary:hover { background: #f0f0f0; }
+    .btn-danger {
+      background: #c00;
+      border-color: #c00;
+    }
+    .btn-danger:hover { background: #900; border-color: #900; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Status message */
+    #status {
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 13px;
+    }
+    #status.ok { background: #e8f5e9; border-left: 3px solid #4caf50; }
+    #status.err { background: #ffebee; border-left: 3px solid #c00; }
+
+    /* Exhibition list */
+    .ex-list-item {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .ex-list-item:last-child { border-bottom: none; }
+    .ex-list-title { flex: 1; font-size: 14px; }
+    .ex-list-meta { font-size: 12px; color: #666; }
+    .ex-list-badge {
+      font-size: 11px;
+      padding: 2px 6px;
+      background: #000;
+      color: #fff;
+    }
+    .ex-list-actions { display: flex; gap: 6px; }
+    .ex-list-actions button { padding: 4px 8px; font-size: 12px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid #000; margin-bottom: 24px; }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-bottom: none;
+      font-size: 14px;
+      background: none;
+      color: #666;
+    }
+    .tab.active {
+      border-color: #000;
+      color: #000;
+      background: #fff;
+      margin-bottom: -1px;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+  </style>
+</head>
+<body>
+<div id="page">
+  <h1>St. Chads — Admin</h1>
+
+  <div id="auth-screen">
+    <label for="password-input">Password</label>
+    <input type="password" id="password-input" autocomplete="current-password" placeholder="Enter admin password" />
+    <button id="login-btn">Login</button>
+    <p id="auth-error">Incorrect password.</p>
+  </div>
+
+  <div id="admin-panel" style="display:none;">
+    <div id="status"></div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="add">Add Exhibition</button>
+      <button class="tab" data-tab="list">All Exhibitions</button>
+      <button class="tab" data-tab="seed">Seed / Reset</button>
+    </div>
+
+    <!-- ADD TAB -->
+    <div class="tab-panel active" id="tab-add">
+      <h2>New Exhibition</h2>
+      <form id="add-form">
+        <div class="form-row">
+          <label>Exhibition Title</label>
+          <input type="text" name="title" placeholder="e.g. Mute Track" />
+        </div>
+        <div class="form-row">
+          <label>Artist(s)</label>
+          <input type="text" name="artists" placeholder="Comma-separated: Artist One, Artist Two" />
+        </div>
+        <div class="form-row">
+          <label>Year</label>
+          <input type="number" name="year" value="" min="2000" max="2100" style="width:100px" />
+        </div>
+        <div class="form-row">
+          <label>Dates (optional)</label>
+          <input type="text" name="dates" placeholder="e.g. 1–28 March 2025" />
+        </div>
+        <div class="form-row">
+          <label>Status</label>
+          <select name="status">
+            <option value="current">Current (shown first, marks others as past)</option>
+            <option value="past">Past</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Description / Materials text</label>
+          <textarea name="description" placeholder="Medium, dimensions, year, artist statement…"></textarea>
+        </div>
+
+        <!-- Media section -->
+        <div class="form-row">
+          <label>Media (images + videos)</label>
+          <div id="media-list"></div>
+
+          <div class="upload-area" id="upload-area">
+            Click or drag images here to upload
+          </div>
+          <input type="file" id="upload-input" accept="image/*" multiple />
+          <div class="upload-progress" id="upload-progress"></div>
+
+          <div class="video-row" style="margin-top:8px;">
+            <input type="text" id="video-url-input" placeholder="Vimeo or YouTube URL" />
+            <button type="button" id="add-video-btn" class="btn-secondary">Add Video</button>
+          </div>
+          <p class="form-hint">Images upload immediately. Videos are added by URL.</p>
+        </div>
+
+        <button type="submit" id="save-btn">Save Exhibition</button>
+      </form>
+    </div>
+
+    <!-- LIST TAB -->
+    <div class="tab-panel" id="tab-list">
+      <h2>All Exhibitions</h2>
+      <div id="ex-list"><p style="color:#666">Loading…</p></div>
+    </div>
+
+    <!-- SEED TAB -->
+    <div class="tab-panel" id="tab-seed">
+      <h2>Seed Database</h2>
+      <p style="margin-bottom:16px;color:#666;font-size:13px;">
+        Populate the database with all historical exhibitions from the original site.
+        Only runs once — will refuse if exhibitions already exist.
+      </p>
+      <button id="seed-btn">Seed Historical Data</button>
+      &nbsp;
+      <button id="reset-btn" class="btn-danger">Reset All Data</button>
+      <p style="margin-top:8px;font-size:12px;color:#999">Reset deletes everything — use with caution.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+let password = "";
+let mediaItems = []; // {type, src/id/platform, role?}
+
+// ---- Auth ----
+document.getElementById("password-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") login();
+});
+document.getElementById("login-btn").addEventListener("click", login);
+
+async function login() {
+  const pw = document.getElementById("password-input").value.trim();
+  if (!pw) return;
+  // Verify by hitting the API
+  const res = await fetch("/api/exhibitions", {
+    headers: { Authorization: "Bearer " + pw },
+  });
+  if (res.ok) {
+    password = pw;
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("admin-panel").style.display = "block";
+    document.getElementById("auth-error").style.display = "none";
+    loadYear();
+    loadExhibitions();
+  } else {
+    document.getElementById("auth-error").style.display = "block";
+  }
+}
+
+function loadYear() {
+  document.querySelector('[name="year"]').value = new Date().getFullYear();
+}
+
+// ---- Tabs ----
+document.querySelectorAll(".tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById("tab-" + tab.dataset.tab).classList.add("active");
+    if (tab.dataset.tab === "list") loadExhibitions();
+  });
+});
+
+// ---- Media builder ----
+function renderMediaList() {
+  const el = document.getElementById("media-list");
+  if (mediaItems.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+  el.innerHTML = mediaItems
+    .map(
+      (m, i) => `<div class="media-item">
+        <span class="media-item-label">${escHtml(m.type === "image" ? m.src.split("/").pop() : m.platform + ": " + m.id)}</span>
+        ${m.role === "invite" ? '<span style="font-size:11px;background:#000;color:#fff;padding:1px 4px">invite</span>' : ""}
+        <button class="media-item-remove" data-i="${i}" title="Remove">×</button>
+      </div>`
+    )
+    .join("");
+  el.querySelectorAll(".media-item-remove").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      mediaItems.splice(Number(btn.dataset.i), 1);
+      renderMediaList();
+    });
+  });
+}
+
+// Upload area
+const uploadArea = document.getElementById("upload-area");
+const uploadInput = document.getElementById("upload-input");
+
+uploadArea.addEventListener("click", () => uploadInput.click());
+uploadArea.addEventListener("dragover", (e) => { e.preventDefault(); uploadArea.classList.add("dragover"); });
+uploadArea.addEventListener("dragleave", () => uploadArea.classList.remove("dragover"));
+uploadArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove("dragover");
+  uploadFiles(Array.from(e.dataTransfer.files));
+});
+uploadInput.addEventListener("change", () => uploadFiles(Array.from(uploadInput.files)));
+
+async function uploadFiles(files) {
+  const progress = document.getElementById("upload-progress");
+  const imageFiles = files.filter((f) => f.type.startsWith("image/"));
+  if (!imageFiles.length) return;
+
+  for (let i = 0; i < imageFiles.length; i++) {
+    const f = imageFiles[i];
+    progress.textContent = `Uploading ${i + 1}/${imageFiles.length}: ${f.name}…`;
+    try {
+      const fd = new FormData();
+      fd.append("file", f);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + password },
+        body: fd,
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const { url } = await res.json();
+      const role = mediaItems.length === 0 ? "invite" : undefined;
+      mediaItems.push({ type: "image", src: url, ...(role ? { role } : {}) });
+      renderMediaList();
+    } catch (e) {
+      progress.textContent = `Error uploading ${f.name}: ${e.message}`;
+    }
+  }
+  progress.textContent = `Done uploading ${imageFiles.length} image(s).`;
+  uploadInput.value = "";
+}
+
+// Add video
+document.getElementById("add-video-btn").addEventListener("click", () => {
+  const url = document.getElementById("video-url-input").value.trim();
+  if (!url) return;
+  const vid = parseVideoUrl(url);
+  if (!vid) { showStatus("Unrecognised video URL. Paste a Vimeo or YouTube link.", "err"); return; }
+  mediaItems.push({ type: "video", platform: vid.platform, id: vid.id });
+  renderMediaList();
+  document.getElementById("video-url-input").value = "";
+});
+
+function parseVideoUrl(url) {
+  let m;
+  m = url.match(/vimeo\.com\/(\d+)/);
+  if (m) return { platform: "vimeo", id: m[1] };
+  m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+  if (m) return { platform: "youtube", id: m[1] };
+  return null;
+}
+
+// ---- Add form submit ----
+document.getElementById("add-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("save-btn");
+  btn.disabled = true;
+  btn.textContent = "Saving…";
+
+  const f = e.target;
+  const artistsRaw = f.artists.value.trim();
+  const body = {
+    title: f.title.value.trim() || null,
+    artists: artistsRaw ? artistsRaw.split(",").map((s) => s.trim()).filter(Boolean) : [],
+    year: parseInt(f.year.value) || new Date().getFullYear(),
+    dates: f.dates.value.trim() || null,
+    status: f.status.value,
+    description: f.description.value.trim(),
+    media: mediaItems.slice(),
+    prepend: f.status.value === "current",
+  };
+
+  try {
+    const res = await fetch("/api/exhibitions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + password,
+      },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(await res.text());
+    showStatus("Exhibition saved!", "ok");
+    e.target.reset();
+    loadYear();
+    mediaItems = [];
+    renderMediaList();
+  } catch (err) {
+    showStatus("Error: " + err.message, "err");
+  }
+  btn.disabled = false;
+  btn.textContent = "Save Exhibition";
+});
+
+// ---- Exhibition list ----
+async function loadExhibitions() {
+  const el = document.getElementById("ex-list");
+  el.innerHTML = "<p style='color:#666'>Loading…</p>";
+  try {
+    const res = await fetch("/api/exhibitions");
+    const data = await res.json();
+    if (!data.exhibitions.length) { el.innerHTML = "<p style='color:#666'>No exhibitions.</p>"; return; }
+    el.innerHTML = data.exhibitions.map((ex) => `
+      <div class="ex-list-item">
+        <span class="ex-list-title">
+          ${ex.status === "current" ? '<span class="ex-list-badge">Current</span> ' : ""}
+          ${escHtml(ex.title || ex.artists?.join(", ") || ex.id)}
+        </span>
+        <span class="ex-list-meta">${ex.year || ""} · ${ex.media?.length || 0} media</span>
+        <div class="ex-list-actions">
+          <button class="btn-danger" data-delete="${escHtml(ex.id)}">Delete</button>
+        </div>
+      </div>`).join("");
+    el.querySelectorAll("[data-delete]").forEach((btn) => {
+      btn.addEventListener("click", () => deleteExhibition(btn.dataset.delete));
+    });
+  } catch (e) {
+    el.innerHTML = "<p style='color:#c00'>Failed to load.</p>";
+  }
+}
+
+async function deleteExhibition(id) {
+  if (!confirm("Delete exhibition "" + id + ""? This cannot be undone.")) return;
+  const res = await fetch("/api/exhibitions?id=" + encodeURIComponent(id), {
+    method: "DELETE",
+    headers: { Authorization: "Bearer " + password },
+  });
+  if (res.ok) { showStatus("Deleted.", "ok"); loadExhibitions(); }
+  else showStatus("Error deleting.", "err");
+}
+
+// ---- Seed / reset ----
+document.getElementById("seed-btn").addEventListener("click", async () => {
+  if (!confirm("Seed the database with historical exhibitions?")) return;
+  const res = await fetch("/api/seed", {
+    method: "POST",
+    headers: { Authorization: "Bearer " + password },
+  });
+  const data = await res.json();
+  if (res.ok && data.ok) showStatus(`Seeded ${data.count} exhibitions.`, "ok");
+  else showStatus(data.message || "Seed failed.", "err");
+});
+
+document.getElementById("reset-btn").addEventListener("click", async () => {
+  if (!confirm("DELETE ALL exhibition data? This cannot be undone.")) return;
+  if (!confirm("Are you sure? All data will be erased.")) return;
+  const res = await fetch("/api/seed", {
+    method: "DELETE",
+    headers: { Authorization: "Bearer " + password },
+  });
+  if (res.ok) { showStatus("All data reset.", "ok"); loadExhibitions(); }
+  else showStatus("Reset failed.", "err");
+});
+
+// ---- Helpers ----
+function showStatus(msg, type) {
+  const el = document.getElementById("status");
+  el.textContent = msg;
+  el.className = type;
+  el.style.display = "block";
+  setTimeout(() => { el.style.display = "none"; }, 5000);
+}
+
+function escHtml(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+</script>
+</body>
+</html>

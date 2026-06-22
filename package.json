@@ -1,0 +1,13 @@
+{
+  "name": "stchads-pages",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public --kv EXHIBITIONS_KV --r2 IMAGES_R2",
+    "deploy": "wrangler pages deploy public",
+    "seed": "node scripts/seed.js"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

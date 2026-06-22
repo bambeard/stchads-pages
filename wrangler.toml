@@ -1,0 +1,12 @@
+name = "stchads-pages"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "public"
+
+[[kv_namespaces]]
+binding = "EXHIBITIONS_KV"
+id = "bce7b85ca44945279a84c601cf21fd89"
+preview_id = "2943f73af90048c399a8dd443798797b"
+
+[[r2_buckets]]
+binding = "IMAGES_R2"
+bucket_name = "stchads-images"
