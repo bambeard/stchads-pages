@@ -8,144 +8,56 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 14px;
+      font-family: Times, "Times New Roman", Georgia, serif;
+      font-size: 12px;
+      line-height: 14px;
       color: #000;
       background: #fff;
     }
 
-    #page { max-width: 800px; margin: 0 auto; padding: 30px 20px 60px; }
+    a { color: #000; }
 
-    h1 { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
-    h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+    #page { max-width: 800px; margin: 0 auto; padding: 30px 20px 80px; }
 
-    /* Auth screen */
-    #auth-screen { max-width: 320px; }
-    #auth-screen label { display: block; margin-bottom: 6px; }
-    #auth-screen input { width: 100%; padding: 8px; border: 1px solid #ccc; font-size: 14px; margin-bottom: 10px; }
-    #auth-error { color: #c00; margin-top: 6px; font-size: 13px; display: none; }
-
-    /* Sections */
-    .section { margin-bottom: 40px; }
-
-    /* Form */
-    .form-row { margin-bottom: 14px; }
-    .form-row label { display: block; margin-bottom: 4px; font-weight: 500; }
-    .form-row input,
-    .form-row textarea,
-    .form-row select {
-      width: 100%;
-      padding: 7px 9px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      font-family: inherit;
-    }
-    .form-row textarea { height: 120px; resize: vertical; }
-    .form-hint { font-size: 12px; color: #666; margin-top: 3px; }
-
-    /* Media builder */
-    #media-list { border: 1px solid #eee; margin-bottom: 8px; }
-    .media-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-bottom: 1px solid #eee;
-    }
-    .media-item:last-child { border-bottom: none; }
-    .media-item-label { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .media-item-remove {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #999;
-      font-size: 16px;
-      padding: 0 4px;
-      line-height: 1;
-    }
-    .media-item-remove:hover { color: #c00; }
-
-    /* Upload progress */
-    .upload-area {
-      border: 2px dashed #ccc;
-      padding: 16px;
-      text-align: center;
-      cursor: pointer;
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: #666;
-    }
-    .upload-area.dragover { border-color: #000; background: #f9f9f9; }
-    #upload-input { display: none; }
-    .upload-progress { font-size: 12px; color: #666; margin-top: 4px; }
-
-    /* Video embed */
-    .video-row { display: flex; gap: 8px; }
-    .video-row input { flex: 1; }
-
-    /* Buttons */
-    button, .btn {
-      padding: 8px 16px;
-      border: 1px solid #000;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-      font-family: inherit;
-    }
-    button:hover { background: #333; }
-    .btn-secondary {
-      background: #fff;
-      color: #000;
-    }
-    .btn-secondary:hover { background: #f0f0f0; }
-    .btn-danger {
-      background: #c00;
-      border-color: #c00;
-    }
-    .btn-danger:hover { background: #900; border-color: #900; }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* Status message */
-    #status {
-      padding: 10px 14px;
-      margin-bottom: 20px;
-      display: none;
-      font-size: 13px;
-    }
-    #status.ok { background: #e8f5e9; border-left: 3px solid #4caf50; }
-    #status.err { background: #ffebee; border-left: 3px solid #c00; }
-
-    /* Exhibition list */
-    .ex-list-item {
+    /* ---- Header ---- */
+    #admin-header {
+      border-bottom: 1px solid #000;
+      padding-bottom: 14px;
+      margin-bottom: 30px;
       display: flex;
       align-items: baseline;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
+      justify-content: space-between;
     }
-    .ex-list-item:last-child { border-bottom: none; }
-    .ex-list-title { flex: 1; font-size: 14px; }
-    .ex-list-meta { font-size: 12px; color: #666; }
-    .ex-list-badge {
-      font-size: 11px;
-      padding: 2px 6px;
-      background: #000;
-      color: #fff;
-    }
-    .ex-list-actions { display: flex; gap: 6px; }
-    .ex-list-actions button { padding: 4px 8px; font-size: 12px; }
+    #admin-header h1 { font-size: 24px; line-height: 29px; font-weight: normal; }
+    #admin-header a { font-size: 12px; }
 
-    /* Tabs */
-    .tabs { display: flex; gap: 0; border-bottom: 1px solid #000; margin-bottom: 24px; }
+    /* ---- Auth ---- */
+    #auth-screen { max-width: 300px; padding-top: 40px; }
+    #auth-screen label { display: block; margin-bottom: 6px; font-size: 12px; }
+    #auth-screen input[type="password"] {
+      width: 100%; padding: 6px 8px;
+      border: 1px solid #000;
+      font-family: inherit; font-size: 12px;
+      margin-bottom: 10px;
+    }
+    #auth-error { color: #c00; margin-top: 6px; font-size: 12px; display: none; }
+
+    /* ---- Tabs ---- */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #000;
+      margin-bottom: 28px;
+      gap: 0;
+    }
     .tab {
-      padding: 8px 16px;
+      padding: 6px 14px;
       cursor: pointer;
       border: 1px solid transparent;
       border-bottom: none;
-      font-size: 14px;
+      font-size: 12px;
+      font-family: inherit;
       background: none;
-      color: #666;
+      color: #999;
     }
     .tab.active {
       border-color: #000;
@@ -155,21 +67,325 @@
     }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+
+    /* ---- Status ---- */
+    #status {
+      padding: 8px 12px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 12px;
+      border-left: 2px solid;
+    }
+    #status.ok { background: #f4f4f4; border-color: #000; }
+    #status.err { background: #fff0f0; border-color: #c00; color: #c00; }
+
+    /* ---- Section headings ---- */
+    h2 { font-size: 14px; font-weight: normal; margin-bottom: 18px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+
+    /* ---- Form ---- */
+    .form-row { margin-bottom: 16px; }
+    .form-row label { display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; }
+    .form-row input,
+    .form-row textarea,
+    .form-row select {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      font-size: 12px;
+      font-family: inherit;
+      border-radius: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-row input:focus,
+    .form-row textarea:focus,
+    .form-row select:focus {
+      outline: none;
+      border-color: #000;
+    }
+    .form-row textarea { height: 80px; resize: vertical; }
+    .form-row input[type="number"] { width: 90px; }
+    .form-hint { font-size: 11px; color: #999; margin-top: 3px; }
+
+    /* ---- Buttons ---- */
+    button, .btn {
+      padding: 6px 14px;
+      border: 1px solid #000;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: inherit;
+      border-radius: 0;
+    }
+    button:hover { background: #333; }
+    .btn-ghost {
+      background: #fff;
+      color: #000;
+    }
+    .btn-ghost:hover { background: #f4f4f4; }
+    .btn-danger { background: #fff; color: #c00; border-color: #c00; }
+    .btn-danger:hover { background: #fff0f0; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ---- Block builder ---- */
+    .block-section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .block-list {
+      min-height: 40px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .block-list.drag-active .block-item { opacity: 0.8; }
+
+    .block-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      border: 1px solid #e0e0e0;
+      margin-bottom: 4px;
+      background: #fff;
+      position: relative;
+      transition: opacity 0.15s;
+      cursor: default;
+    }
+    .block-item.dragging { opacity: 0.35; }
+    .block-item.drag-over-top { border-top: 2px solid #000; }
+    .block-item.drag-over-bottom { border-bottom: 2px solid #000; }
+
+    .block-handle {
+      width: 28px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      color: #ccc;
+      font-size: 14px;
+      flex-shrink: 0;
+      user-select: none;
+      border-right: 1px solid #e0e0e0;
+    }
+    .block-handle:active { cursor: grabbing; }
+
+    .block-type-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #999;
+      padding: 4px 6px;
+      border-right: 1px solid #e0e0e0;
+      min-width: 44px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .block-content { flex: 1; padding: 6px 8px; min-width: 0; }
+
+    /* Image block */
+    .block-image-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .block-thumb {
+      width: 48px;
+      height: 36px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+      background: #f4f4f4;
+    }
+    .block-image-name {
+      font-size: 11px;
+      color: #666;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+    .block-invite-toggle {
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .block-invite-toggle.is-invite {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* Text block */
+    .block-textarea {
+      width: 100%;
+      min-height: 56px;
+      border: none;
+      font-family: inherit;
+      font-size: 12px;
+      line-height: 14px;
+      resize: vertical;
+      padding: 0;
+      outline: none;
+      background: transparent;
+    }
+
+    /* Video block */
+    .block-video-info { font-size: 12px; color: #666; }
+
+    /* Remove button */
+    .block-remove {
+      width: 28px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      border-left: 1px solid #e0e0e0;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 16px;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .block-remove:hover { color: #c00; background: #fff0f0; }
+
+    .block-list-empty {
+      border: 1px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+
+    /* ---- Upload area ---- */
+    .upload-area {
+      border: 1px dashed #000;
+      padding: 14px 16px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .upload-area:hover { background: #f9f9f9; }
+    .upload-area.dragover { background: #f4f4f4; border-style: solid; }
+    .upload-progress { font-size: 11px; color: #999; margin-top: 4px; min-height: 14px; }
+
+    /* ---- Add block controls ---- */
+    .block-controls {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+      align-items: center;
+    }
+    .video-input-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .video-input-row input {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .video-input-row input:focus { outline: none; border-color: #000; }
+
+    /* ---- Exhibition list ---- */
+    .ex-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 12px;
+    }
+    .ex-row:last-child { border-bottom: none; }
+    .ex-row-title { flex: 1; }
+    .ex-row-meta { color: #999; font-size: 11px; white-space: nowrap; }
+    .ex-badge {
+      font-size: 10px;
+      padding: 1px 5px;
+      background: #000;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .ex-row-actions { display: flex; gap: 4px; }
+    .ex-row-actions button { padding: 3px 8px; font-size: 11px; }
+
+    /* ---- Edit modal ---- */
+    #edit-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    #edit-modal {
+      background: #fff;
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 30px;
+      border-top: 3px solid #000;
+    }
+    #edit-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+    }
+    #edit-modal-header h2 { border: none; padding: 0; margin: 0; font-size: 18px; }
+    #edit-status {
+      margin-bottom: 14px;
+      font-size: 12px;
+      padding: 7px 10px;
+      display: none;
+      border-left: 2px solid;
+    }
+    #edit-status.ok { background: #f4f4f4; border-color: #000; display: block; }
+    #edit-status.err { background: #fff0f0; border-color: #c00; color: #c00; display: block; }
+
+    /* ---- Seed tab ---- */
+    #tab-seed p { font-size: 12px; color: #666; margin-bottom: 14px; line-height: 18px; }
+    .seed-actions { display: flex; gap: 10px; align-items: center; }
+    .seed-note { font-size: 11px; color: #999; }
   </style>
 </head>
 <body>
 <div id="page">
-  <h1>St. Chads — Admin</h1>
 
+  <div id="admin-header">
+    <h1>St. Chads — Admin</h1>
+    <a href="/">← View site</a>
+  </div>
+
+  <!-- Auth -->
   <div id="auth-screen">
     <form id="login-form" onsubmit="return false;">
       <label for="password-input">Password</label>
       <input type="password" id="password-input" autocomplete="current-password" placeholder="Enter admin password" />
       <button type="submit" id="login-btn">Login</button>
-      <p id="auth-error" style="display:none;color:#c00;margin-top:6px;font-size:13px;"></p>
+      <p id="auth-error"></p>
     </form>
   </div>
 
+  <!-- Admin panel -->
   <div id="admin-panel" style="display:none;">
     <div id="status"></div>
 
@@ -191,41 +407,43 @@
           <label>Artist(s)</label>
           <input type="text" name="artists" placeholder="Comma-separated: Artist One, Artist Two" />
         </div>
-        <div class="form-row">
-          <label>Year</label>
-          <input type="number" name="year" value="" min="2000" max="2100" style="width:100px" />
-        </div>
-        <div class="form-row">
-          <label>Dates (optional)</label>
-          <input type="text" name="dates" placeholder="e.g. 1–28 March 2025" />
-        </div>
-        <div class="form-row">
-          <label>Status</label>
-          <select name="status">
-            <option value="current">Current (shown first, marks others as past)</option>
-            <option value="past">Past</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Description / Materials text</label>
-          <textarea name="description" placeholder="Medium, dimensions, year, artist statement…"></textarea>
+        <div style="display:flex;gap:16px;">
+          <div class="form-row" style="flex:0 0 auto;">
+            <label>Year</label>
+            <input type="number" name="year" min="2000" max="2100" />
+          </div>
+          <div class="form-row" style="flex:1;">
+            <label>Dates (optional)</label>
+            <input type="text" name="dates" placeholder="e.g. 1–28 March 2025" />
+          </div>
+          <div class="form-row" style="flex:0 0 auto;">
+            <label>Status</label>
+            <select name="status" style="width:90px;">
+              <option value="current">Current</option>
+              <option value="past">Past</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Media section -->
+        <!-- Block builder -->
         <div class="form-row">
-          <label>Media — images, text blocks and videos in order</label>
-          <div id="media-list"></div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
-            <div class="upload-area" id="upload-area" style="flex:1;min-width:160px;margin-bottom:0;">Upload Images</div>
-            <button type="button" id="add-text-btn" class="btn-secondary">+ Text Block</button>
+          <label>Content Blocks</label>
+          <div id="add-block-list" class="block-list"></div>
+
+          <div class="upload-area" id="add-upload-area">
+            Drop images here, or click to select
           </div>
-          <input type="file" id="upload-input" accept="image/*" multiple />
-          <div class="upload-progress" id="upload-progress"></div>
-          <div class="video-row" style="margin-top:6px;">
-            <input type="text" id="video-url-input" placeholder="Vimeo or YouTube URL" />
-            <button type="button" id="add-video-btn" class="btn-secondary">Add Video</button>
+          <input type="file" id="add-upload-input" accept="image/*" multiple style="display:none;" />
+          <div class="upload-progress" id="add-upload-progress"></div>
+
+          <div class="block-controls">
+            <button type="button" id="add-text-btn" class="btn-ghost">+ Text Block</button>
+            <div class="video-input-row" style="flex:1;margin:0;">
+              <input type="text" id="add-video-url" placeholder="Vimeo or YouTube URL" />
+              <button type="button" id="add-video-btn" class="btn-ghost">+ Video</button>
+            </div>
           </div>
-          <p class="form-hint">Drag images or click to upload. Use ↑↓ to reorder any item.</p>
+          <p class="form-hint">Drag blocks by the grip handle to reorder. First image is automatically the invite/flyer.</p>
         </div>
 
         <button type="submit" id="save-btn">Save Exhibition</button>
@@ -235,91 +453,89 @@
     <!-- LIST TAB -->
     <div class="tab-panel" id="tab-list">
       <h2>All Exhibitions</h2>
-      <div id="ex-list"><p style="color:#666">Loading…</p></div>
-    </div>
-
-    <!-- EDIT MODAL -->
-    <div id="edit-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;overflow-y:auto;">
-      <div style="background:#fff;max-width:700px;margin:40px auto;padding:30px;">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;">
-          <h2>Edit Exhibition</h2>
-          <button type="button" id="edit-close-btn" class="btn-secondary" style="padding:4px 10px;">✕ Close</button>
-        </div>
-        <div id="edit-status"></div>
-        <form id="edit-form">
-          <input type="hidden" name="id" />
-          <div class="form-row">
-            <label>Exhibition Title</label>
-            <input type="text" name="title" />
-          </div>
-          <div class="form-row">
-            <label>Artist(s)</label>
-            <input type="text" name="artists" placeholder="Comma-separated" />
-          </div>
-          <div class="form-row">
-            <label>Year</label>
-            <input type="number" name="year" min="2000" max="2100" style="width:100px" />
-          </div>
-          <div class="form-row">
-            <label>Dates (optional)</label>
-            <input type="text" name="dates" />
-          </div>
-          <div class="form-row">
-            <label>Status</label>
-            <select name="status">
-              <option value="current">Current</option>
-              <option value="past">Past</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label>Description / Materials text</label>
-            <textarea name="description"></textarea>
-          </div>
-          <div class="form-row">
-            <label>Media</label>
-            <div id="edit-media-list" style="border:1px solid #eee;margin-bottom:8px;min-height:20px;"></div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
-              <div class="upload-area" id="edit-upload-area" style="flex:1;min-width:140px;margin-bottom:0;">Upload Images</div>
-              <button type="button" id="edit-add-text-btn" class="btn-secondary">+ Text Block</button>
-            </div>
-            <input type="file" id="edit-upload-input" accept="image/*" multiple style="display:none;" />
-            <div id="edit-upload-progress" style="font-size:12px;color:#666;margin-bottom:8px;"></div>
-            <div class="video-row">
-              <input type="text" id="edit-video-url" placeholder="Vimeo or YouTube URL" />
-              <button type="button" id="edit-add-video-btn" class="btn-secondary">Add Video</button>
-            </div>
-          </div>
-          <button type="submit" id="edit-save-btn">Save Changes</button>
-        </form>
-      </div>
+      <div id="ex-list"><p style="color:#999">Loading…</p></div>
     </div>
 
     <!-- SEED TAB -->
     <div class="tab-panel" id="tab-seed">
-      <h2>Seed Database</h2>
-      <p style="margin-bottom:16px;color:#666;font-size:13px;">
-        Populate the database with all historical exhibitions from the original site.
-        Only runs once — will refuse if exhibitions already exist.
-      </p>
-      <button id="seed-btn">Seed Historical Data</button>
-      &nbsp;
-      <button id="reset-btn" class="btn-danger">Reset All Data</button>
-      <p style="margin-top:8px;font-size:12px;color:#999">Reset deletes everything — use with caution.</p>
+      <h2>Seed / Reset Database</h2>
+      <p>Populate the database with all historical exhibitions from the original site. Only runs if the database is empty.</p>
+      <div class="seed-actions">
+        <button id="seed-btn">Seed Historical Data</button>
+        <button id="reset-btn" class="btn-danger">Reset All Data</button>
+        <span class="seed-note">Reset deletes everything and cannot be undone.</span>
+      </div>
     </div>
   </div>
+
+  <!-- Edit modal -->
+  <div id="edit-overlay">
+    <div id="edit-modal">
+      <div id="edit-modal-header">
+        <h2>Edit Exhibition</h2>
+        <button type="button" id="edit-close-btn" class="btn-ghost" style="padding:4px 10px;">✕ Close</button>
+      </div>
+      <div id="edit-status"></div>
+      <form id="edit-form">
+        <input type="hidden" name="id" />
+        <div class="form-row">
+          <label>Exhibition Title</label>
+          <input type="text" name="title" />
+        </div>
+        <div class="form-row">
+          <label>Artist(s)</label>
+          <input type="text" name="artists" placeholder="Comma-separated" />
+        </div>
+        <div style="display:flex;gap:16px;">
+          <div class="form-row" style="flex:0 0 auto;">
+            <label>Year</label>
+            <input type="number" name="year" min="2000" max="2100" />
+          </div>
+          <div class="form-row" style="flex:1;">
+            <label>Dates (optional)</label>
+            <input type="text" name="dates" />
+          </div>
+          <div class="form-row" style="flex:0 0 auto;">
+            <label>Status</label>
+            <select name="status" style="width:90px;">
+              <option value="current">Current</option>
+              <option value="past">Past</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Content Blocks</label>
+          <div id="edit-block-list" class="block-list"></div>
+
+          <div class="upload-area" id="edit-upload-area">
+            Drop images here, or click to select
+          </div>
+          <input type="file" id="edit-upload-input" accept="image/*" multiple style="display:none;" />
+          <div class="upload-progress" id="edit-upload-progress"></div>
+
+          <div class="block-controls">
+            <button type="button" id="edit-text-btn" class="btn-ghost">+ Text Block</button>
+            <div class="video-input-row" style="flex:1;margin:0;">
+              <input type="text" id="edit-video-url" placeholder="Vimeo or YouTube URL" />
+              <button type="button" id="edit-video-btn" class="btn-ghost">+ Video</button>
+            </div>
+          </div>
+        </div>
+        <button type="submit" id="edit-save-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
 </div>
-
 <script>
-let password = "";
-let mediaItems = [];
+'use strict';
 
-function escHtml(s) {
+let password = "";
+
+// ---- Utilities ----
+function esc(s) {
   if (s == null) return "";
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
 function showStatus(msg, type) {
@@ -330,169 +546,6 @@ function showStatus(msg, type) {
   setTimeout(() => { el.style.display = "none"; }, 5000);
 }
 
-async function login() {
-  const pw = document.getElementById("password-input").value.trim();
-  if (!pw) return;
-
-  const btn = document.getElementById("login-btn");
-  btn.disabled = true;
-  btn.textContent = "Checking…";
-
-  try {
-    const res = await fetch("/api/auth", {
-      headers: { Authorization: "Bearer " + pw },
-    });
-    const data = await res.json();
-
-    if (res.ok && data.ok) {
-      password = pw;
-      document.getElementById("auth-screen").style.display = "none";
-      document.getElementById("admin-panel").style.display = "block";
-      document.getElementById("auth-error").style.display = "none";
-      loadYear();
-      loadExhibitions();
-    } else if (res.status === 500) {
-      document.getElementById("auth-error").textContent = data.error || "Server error — check ADMIN_PASSWORD secret is set in CF Pages.";
-      document.getElementById("auth-error").style.display = "block";
-    } else {
-      document.getElementById("auth-error").textContent = "Incorrect password.";
-      document.getElementById("auth-error").style.display = "block";
-    }
-  } catch (e) {
-    document.getElementById("auth-error").textContent = "Network error: " + e.message;
-    document.getElementById("auth-error").style.display = "block";
-  }
-
-  btn.disabled = false;
-  btn.textContent = "Login";
-}
-
-function loadYear() {
-  document.querySelector('[name="year"]').value = new Date().getFullYear();
-}
-
-// ---- Tabs ----
-document.querySelectorAll(".tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
-    document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById("tab-" + tab.dataset.tab).classList.add("active");
-    if (tab.dataset.tab === "list") loadExhibitions();
-  });
-});
-
-// ---- Media builder ----
-function mediaItemLabel(m) {
-  if (m.type === "image") return (m.src || "").split("/").pop() || "image";
-  if (m.type === "text") return "Text: " + (m.content || "").slice(0, 50).replace(/\n/g, " ") + "…";
-  if (m.type === "video") return (m.platform || "") + ": " + (m.id || "");
-  return m.type;
-}
-
-function renderMediaList() {
-  renderMediaListInto("media-list", mediaItems, false);
-}
-
-function renderMediaListInto(listId, items, isEdit) {
-  const el = document.getElementById(listId);
-  if (!items.length) { el.innerHTML = ""; return; }
-  el.innerHTML = items.map((m, i) => `
-    <div class="media-item" data-i="${i}">
-      <div style="display:flex;flex-direction:column;gap:2px;margin-right:4px;">
-        <button class="btn-move-up" data-i="${i}" style="background:none;border:1px solid #ccc;padding:1px 5px;font-size:10px;cursor:pointer;" title="Move up">↑</button>
-        <button class="btn-move-dn" data-i="${i}" style="background:none;border:1px solid #ccc;padding:1px 5px;font-size:10px;cursor:pointer;" title="Move down">↓</button>
-      </div>
-      ${m.type === "text"
-        ? `<textarea class="media-text-edit" data-i="${i}" style="flex:1;height:60px;font-size:12px;padding:4px;resize:vertical;">${escHtml(m.content || "")}</textarea>`
-        : `<span class="media-item-label" style="flex:1;">${escHtml(mediaItemLabel(m))}</span>`
-      }
-      ${m.role === "invite" ? '<span style="font-size:11px;background:#000;color:#fff;padding:1px 4px;white-space:nowrap;">invite</span>' : ""}
-      <span style="font-size:11px;color:#999;margin:0 4px;">${m.type}</span>
-      <button class="media-item-remove" data-i="${i}" title="Remove" style="background:none;border:none;cursor:pointer;color:#999;font-size:18px;padding:0 4px;line-height:1;">×</button>
-    </div>`).join("");
-
-  // Bind events
-  el.querySelectorAll(".media-item-remove").forEach(btn => {
-    btn.addEventListener("click", () => { items.splice(Number(btn.dataset.i), 1); renderMediaListInto(listId, items, isEdit); });
-  });
-  el.querySelectorAll(".btn-move-up").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const i = Number(btn.dataset.i);
-      if (i > 0) { [items[i-1], items[i]] = [items[i], items[i-1]]; renderMediaListInto(listId, items, isEdit); }
-    });
-  });
-  el.querySelectorAll(".btn-move-dn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const i = Number(btn.dataset.i);
-      if (i < items.length - 1) { [items[i], items[i+1]] = [items[i+1], items[i]]; renderMediaListInto(listId, items, isEdit); }
-    });
-  });
-  el.querySelectorAll(".media-text-edit").forEach(ta => {
-    ta.addEventListener("input", () => { items[Number(ta.dataset.i)].content = ta.value; });
-  });
-}
-
-// Upload area
-const uploadArea = document.getElementById("upload-area");
-const uploadInput = document.getElementById("upload-input");
-
-uploadArea.addEventListener("click", () => uploadInput.click());
-uploadArea.addEventListener("dragover", (e) => { e.preventDefault(); uploadArea.classList.add("dragover"); });
-uploadArea.addEventListener("dragleave", () => uploadArea.classList.remove("dragover"));
-uploadArea.addEventListener("drop", (e) => {
-  e.preventDefault();
-  uploadArea.classList.remove("dragover");
-  uploadFiles(Array.from(e.dataTransfer.files));
-});
-uploadInput.addEventListener("change", () => uploadFiles(Array.from(uploadInput.files)));
-
-async function uploadFiles(files) {
-  const progress = document.getElementById("upload-progress");
-  const imageFiles = files.filter((f) => f.type.startsWith("image/"));
-  if (!imageFiles.length) return;
-
-  for (let i = 0; i < imageFiles.length; i++) {
-    const f = imageFiles[i];
-    progress.textContent = `Uploading ${i + 1}/${imageFiles.length}: ${f.name}…`;
-    try {
-      const fd = new FormData();
-      fd.append("file", f);
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        headers: { Authorization: "Bearer " + password },
-        body: fd,
-      });
-      if (!res.ok) throw new Error(await res.text());
-      const { url } = await res.json();
-      const role = mediaItems.length === 0 ? "invite" : undefined;
-      mediaItems.push({ type: "image", src: url, ...(role ? { role } : {}) });
-      renderMediaList();
-    } catch (e) {
-      progress.textContent = `Error uploading ${f.name}: ${e.message}`;
-    }
-  }
-  progress.textContent = `Done uploading ${imageFiles.length} image(s).`;
-  uploadInput.value = "";
-}
-
-// Add text block
-document.getElementById("add-text-btn").addEventListener("click", () => {
-  mediaItems.push({ type: "text", content: "" });
-  renderMediaList();
-});
-
-// Add video
-document.getElementById("add-video-btn").addEventListener("click", () => {
-  const url = document.getElementById("video-url-input").value.trim();
-  if (!url) return;
-  const vid = parseVideoUrl(url);
-  if (!vid) { showStatus("Unrecognised video URL. Paste a Vimeo or YouTube link.", "err"); return; }
-  mediaItems.push({ type: "video", platform: vid.platform, id: vid.id });
-  renderMediaList();
-  document.getElementById("video-url-input").value = "";
-});
-
 function parseVideoUrl(url) {
   let m;
   m = url.match(/vimeo\.com\/(\d+)/);
@@ -502,77 +555,340 @@ function parseVideoUrl(url) {
   return null;
 }
 
-// ---- Add form submit ----
-document.getElementById("add-form").addEventListener("submit", async (e) => {
+// ---- MediaBuilder: drag-and-drop block list ----
+class MediaBuilder {
+  constructor(listId, uploadAreaId, uploadInputId, progressId) {
+    this.items = [];
+    this.listEl = document.getElementById(listId);
+    this.uploadArea = document.getElementById(uploadAreaId);
+    this.uploadInput = document.getElementById(uploadInputId);
+    this.progressEl = document.getElementById(progressId);
+    this._dragIndex = -1;
+    this._wireUpload();
+  }
+
+  setItems(items) {
+    this.items = items.map(m => Object.assign({}, m));
+    this._render();
+  }
+
+  getItems() {
+    return this.items.slice();
+  }
+
+  _wireUpload() {
+    this.uploadArea.addEventListener("click", () => this.uploadInput.click());
+    this.uploadArea.addEventListener("dragover", e => { e.preventDefault(); this.uploadArea.classList.add("dragover"); });
+    this.uploadArea.addEventListener("dragleave", () => this.uploadArea.classList.remove("dragover"));
+    this.uploadArea.addEventListener("drop", e => {
+      e.preventDefault();
+      this.uploadArea.classList.remove("dragover");
+      this._uploadFiles(Array.from(e.dataTransfer.files));
+    });
+    this.uploadInput.addEventListener("change", () => {
+      this._uploadFiles(Array.from(this.uploadInput.files));
+    });
+  }
+
+  async _uploadFiles(files) {
+    const images = files.filter(f => f.type.startsWith("image/"));
+    if (!images.length) return;
+    for (let i = 0; i < images.length; i++) {
+      const f = images[i];
+      this.progressEl.textContent = `Uploading ${i + 1}/${images.length}: ${f.name}…`;
+      try {
+        const fd = new FormData();
+        fd.append("file", f);
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + password },
+          body: fd,
+        });
+        if (!res.ok) throw new Error(await res.text());
+        const { url } = await res.json();
+        this.items.push({ type: "image", src: url });
+        this._render();
+      } catch (err) {
+        this.progressEl.textContent = "Error: " + err.message;
+        return;
+      }
+    }
+    this.progressEl.textContent = `Uploaded ${images.length} image${images.length > 1 ? "s" : ""}.`;
+    this.uploadInput.value = "";
+    setTimeout(() => { this.progressEl.textContent = ""; }, 3000);
+  }
+
+  addText() {
+    this.items.push({ type: "text", content: "" });
+    this._render();
+  }
+
+  addVideo(url) {
+    const v = parseVideoUrl(url);
+    if (!v) return false;
+    this.items.push({ type: "video", platform: v.platform, id: v.id });
+    this._render();
+    return true;
+  }
+
+  _render() {
+    const items = this.items;
+    if (!items.length) {
+      this.listEl.innerHTML = '<div class="block-list-empty">No blocks yet — upload images or add text/video blocks below.</div>';
+      return;
+    }
+
+    this.listEl.innerHTML = items.map((m, i) => this._renderBlock(m, i)).join("");
+
+    // Drag events
+    this.listEl.querySelectorAll(".block-handle").forEach(handle => {
+      const item = handle.closest(".block-item");
+      const i = parseInt(item.dataset.i);
+      item.addEventListener("dragstart", e => {
+        this._dragIndex = i;
+        e.dataTransfer.effectAllowed = "move";
+        setTimeout(() => item.classList.add("dragging"), 0);
+        this.listEl.classList.add("drag-active");
+      });
+      item.addEventListener("dragend", () => {
+        item.classList.remove("dragging");
+        this.listEl.classList.remove("drag-active");
+        this.listEl.querySelectorAll(".drag-over-top, .drag-over-bottom").forEach(x => {
+          x.classList.remove("drag-over-top", "drag-over-bottom");
+        });
+        this._dragIndex = -1;
+      });
+    });
+
+    this.listEl.querySelectorAll(".block-item").forEach(item => {
+      item.addEventListener("dragover", e => {
+        if (this._dragIndex === -1) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        this.listEl.querySelectorAll(".drag-over-top, .drag-over-bottom").forEach(x => {
+          x.classList.remove("drag-over-top", "drag-over-bottom");
+        });
+        const rect = item.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        item.classList.add(e.clientY < mid ? "drag-over-top" : "drag-over-bottom");
+      });
+
+      item.addEventListener("dragleave", () => {
+        item.classList.remove("drag-over-top", "drag-over-bottom");
+      });
+
+      item.addEventListener("drop", e => {
+        e.preventDefault();
+        const from = this._dragIndex;
+        if (from === -1) return;
+        const to = parseInt(item.dataset.i);
+        const rect = item.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        let insertBefore = e.clientY < mid ? to : to + 1;
+        item.classList.remove("drag-over-top", "drag-over-bottom");
+        if (from === insertBefore || from + 1 === insertBefore) return;
+        const moved = this.items.splice(from, 1)[0];
+        if (insertBefore > from) insertBefore--;
+        this.items.splice(insertBefore, 0, moved);
+        this._render();
+      });
+    });
+
+    // Remove buttons
+    this.listEl.querySelectorAll(".block-remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.items.splice(parseInt(btn.dataset.i), 1);
+        this._render();
+      });
+    });
+
+    // Invite toggles
+    this.listEl.querySelectorAll(".block-invite-toggle").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const i = parseInt(btn.dataset.i);
+        const isInvite = this.items[i].role === "invite";
+        if (isInvite) {
+          delete this.items[i].role;
+        } else {
+          this.items.forEach(m => delete m.role);
+          this.items[i].role = "invite";
+        }
+        this._render();
+      });
+    });
+
+    // Text inputs — sync to items
+    this.listEl.querySelectorAll(".block-textarea").forEach(ta => {
+      ta.addEventListener("input", () => {
+        this.items[parseInt(ta.dataset.i)].content = ta.value;
+      });
+    });
+  }
+
+  _renderBlock(m, i) {
+    const handle = `<div class="block-handle" title="Drag to reorder">⠿</div>`;
+    const remove = `<button class="block-remove" data-i="${i}" title="Remove">×</button>`;
+
+    let badge = "";
+    let content = "";
+
+    if (m.type === "image") {
+      const isInvite = m.role === "invite";
+      badge = `<div class="block-type-badge">img</div>`;
+      const name = (m.src || "").split("/").pop() || "image";
+      content = `<div class="block-content">
+        <div class="block-image-row">
+          <img class="block-thumb" src="${esc(m.src)}" alt="" />
+          <span class="block-image-name" title="${esc(m.src)}">${esc(name)}</span>
+          <button type="button" class="btn-ghost block-invite-toggle${isInvite ? " is-invite" : ""}" data-i="${i}" title="Mark as invite/flyer image">${isInvite ? "invite ✓" : "invite"}</button>
+        </div>
+      </div>`;
+    } else if (m.type === "text") {
+      badge = `<div class="block-type-badge">text</div>`;
+      content = `<div class="block-content"><textarea class="block-textarea" data-i="${i}" placeholder="Type text here…">${esc(m.content || "")}</textarea></div>`;
+    } else if (m.type === "video") {
+      badge = `<div class="block-type-badge">video</div>`;
+      content = `<div class="block-content"><div class="block-video-info">${esc(m.platform)}: ${esc(m.id)}</div></div>`;
+    }
+
+    return `<div class="block-item" data-i="${i}" draggable="true">${handle}${badge}${content}${remove}</div>`;
+  }
+}
+
+// ---- Init builders ----
+const addBuilder = new MediaBuilder("add-block-list", "add-upload-area", "add-upload-input", "add-upload-progress");
+const editBuilder = new MediaBuilder("edit-block-list", "edit-upload-area", "edit-upload-input", "edit-upload-progress");
+
+document.getElementById("add-text-btn").addEventListener("click", () => addBuilder.addText());
+document.getElementById("add-video-btn").addEventListener("click", () => {
+  const input = document.getElementById("add-video-url");
+  if (!addBuilder.addVideo(input.value.trim())) {
+    showStatus("Unrecognised video URL. Paste a Vimeo or YouTube link.", "err");
+    return;
+  }
+  input.value = "";
+});
+
+document.getElementById("edit-text-btn").addEventListener("click", () => editBuilder.addText());
+document.getElementById("edit-video-btn").addEventListener("click", () => {
+  const input = document.getElementById("edit-video-url");
+  if (!editBuilder.addVideo(input.value.trim())) {
+    showStatus("Unrecognised video URL. Paste a Vimeo or YouTube link.", "err");
+    return;
+  }
+  input.value = "";
+});
+
+// ---- Tabs ----
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById("tab-" + tab.dataset.tab).classList.add("active");
+    if (tab.dataset.tab === "list") loadExhibitions();
+  });
+});
+
+// ---- Auth ----
+async function login() {
+  const pw = document.getElementById("password-input").value.trim();
+  if (!pw) return;
+  const btn = document.getElementById("login-btn");
+  btn.disabled = true; btn.textContent = "Checking…";
+  try {
+    const res = await fetch("/api/auth", { headers: { Authorization: "Bearer " + pw } });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      password = pw;
+      document.getElementById("auth-screen").style.display = "none";
+      document.getElementById("admin-panel").style.display = "block";
+      document.getElementById("auth-error").style.display = "none";
+      document.querySelector('[name="year"]').value = new Date().getFullYear();
+      loadExhibitions();
+    } else if (res.status === 500) {
+      document.getElementById("auth-error").textContent = data.error || "Server error — check ADMIN_PASSWORD is set in CF Pages.";
+      document.getElementById("auth-error").style.display = "block";
+    } else {
+      document.getElementById("auth-error").textContent = "Incorrect password.";
+      document.getElementById("auth-error").style.display = "block";
+    }
+  } catch (err) {
+    document.getElementById("auth-error").textContent = "Network error: " + err.message;
+    document.getElementById("auth-error").style.display = "block";
+  }
+  btn.disabled = false; btn.textContent = "Login";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("login-form").addEventListener("submit", function (e) { e.preventDefault(); login(); });
+  document.getElementById("login-btn").addEventListener("click", function (e) { e.preventDefault(); login(); });
+});
+
+// ---- Add form ----
+document.getElementById("add-form").addEventListener("submit", async e => {
   e.preventDefault();
   const btn = document.getElementById("save-btn");
-  btn.disabled = true;
-  btn.textContent = "Saving…";
-
+  btn.disabled = true; btn.textContent = "Saving…";
   const f = e.target;
   const artistsRaw = f.artists.value.trim();
+  const items = addBuilder.getItems();
+
+  // Auto-set first image as invite if none is set
+  const hasInvite = items.some(m => m.role === "invite");
+  if (!hasInvite) {
+    const firstImg = items.find(m => m.type === "image");
+    if (firstImg) firstImg.role = "invite";
+  }
+
   const body = {
     title: f.title.value.trim() || null,
-    artists: artistsRaw ? artistsRaw.split(",").map((s) => s.trim()).filter(Boolean) : [],
+    artists: artistsRaw ? artistsRaw.split(",").map(s => s.trim()).filter(Boolean) : [],
     year: parseInt(f.year.value) || new Date().getFullYear(),
     dates: f.dates.value.trim() || null,
     status: f.status.value,
-    description: f.description.value.trim(),
-    media: mediaItems.slice(),
+    media: items,
     prepend: f.status.value === "current",
   };
-
   try {
     const res = await fetch("/api/exhibitions", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + password,
-      },
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + password },
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(await res.text());
     showStatus("Exhibition saved!", "ok");
     e.target.reset();
-    loadYear();
-    mediaItems = [];
-    renderMediaList();
+    document.querySelector('[name="year"]').value = new Date().getFullYear();
+    addBuilder.setItems([]);
   } catch (err) {
     showStatus("Error: " + err.message, "err");
   }
-  btn.disabled = false;
-  btn.textContent = "Save Exhibition";
+  btn.disabled = false; btn.textContent = "Save Exhibition";
 });
 
 // ---- Exhibition list ----
-let editMediaItems = [];
-
 async function loadExhibitions() {
   const el = document.getElementById("ex-list");
-  el.innerHTML = "<p style='color:#666'>Loading…</p>";
+  el.innerHTML = "<p style='color:#999'>Loading…</p>";
   try {
     const res = await fetch("/api/exhibitions");
     const data = await res.json();
-    if (!data.exhibitions.length) { el.innerHTML = "<p style='color:#666'>No exhibitions.</p>"; return; }
-    el.innerHTML = data.exhibitions.map((ex) => `
-      <div class="ex-list-item">
-        <span class="ex-list-title">
-          ${ex.status === "current" ? '<span class="ex-list-badge">Current</span> ' : ""}
-          ${escHtml(ex.title || ex.artists?.join(", ") || ex.id)}
+    if (!data.exhibitions.length) { el.innerHTML = "<p style='color:#999'>No exhibitions.</p>"; return; }
+    el.innerHTML = data.exhibitions.map(ex => `
+      <div class="ex-row">
+        <span class="ex-row-title">
+          ${ex.status === "current" ? '<span class="ex-badge">Current</span> ' : ""}${esc(ex.title || (ex.artists || []).join(", ") || ex.id)}
         </span>
-        <span class="ex-list-meta">${ex.year || ""} · ${ex.media?.length || 0} media</span>
-        <div class="ex-list-actions">
-          <button class="btn-secondary" data-edit="${escHtml(ex.id)}">Edit</button>
-          <button class="btn-danger" data-delete="${escHtml(ex.id)}">Delete</button>
+        <span class="ex-row-meta">${ex.year || ""} &middot; ${ex.media?.length || 0} blocks</span>
+        <div class="ex-row-actions">
+          <button class="btn-ghost" data-edit="${esc(ex.id)}">Edit</button>
+          <button class="btn-danger" data-delete="${esc(ex.id)}">Delete</button>
         </div>
       </div>`).join("");
-    el.querySelectorAll("[data-edit]").forEach((btn) => {
-      btn.addEventListener("click", () => openEdit(btn.dataset.edit));
-    });
-    el.querySelectorAll("[data-delete]").forEach((btn) => {
-      btn.addEventListener("click", () => deleteExhibition(btn.dataset.delete));
-    });
-  } catch (e) {
+    el.querySelectorAll("[data-edit]").forEach(btn => btn.addEventListener("click", () => openEdit(btn.dataset.edit)));
+    el.querySelectorAll("[data-delete]").forEach(btn => btn.addEventListener("click", () => deleteExhibition(btn.dataset.delete)));
+  } catch (err) {
     el.innerHTML = "<p style='color:#c00'>Failed to load.</p>";
   }
 }
@@ -587,6 +903,7 @@ async function deleteExhibition(id) {
   else showStatus("Error deleting.", "err");
 }
 
+// ---- Edit modal ----
 async function openEdit(id) {
   const res = await fetch("/api/exhibitions");
   const data = await res.json();
@@ -600,87 +917,38 @@ async function openEdit(id) {
   f.year.value = ex.year || "";
   f.dates.value = ex.dates || "";
   f.status.value = ex.status || "past";
-  f.description.value = ex.description || "";
 
-  editMediaItems = (ex.media || []).map(m => Object.assign({}, m));
-  renderEditMediaList();
+  editBuilder.setItems(ex.media || []);
 
+  const statusEl = document.getElementById("edit-status");
+  statusEl.className = "";
+  statusEl.textContent = "";
+  statusEl.style.display = "none";
   document.getElementById("edit-overlay").style.display = "block";
-  document.getElementById("edit-status").innerHTML = "";
-}
-
-function renderEditMediaList() {
-  renderMediaListInto("edit-media-list", editMediaItems, true);
 }
 
 document.getElementById("edit-close-btn").addEventListener("click", () => {
   document.getElementById("edit-overlay").style.display = "none";
 });
-
-document.getElementById("edit-overlay").addEventListener("click", (e) => {
+document.getElementById("edit-overlay").addEventListener("click", e => {
   if (e.target === document.getElementById("edit-overlay"))
     document.getElementById("edit-overlay").style.display = "none";
 });
 
-// Edit upload area
-const editUploadArea = document.getElementById("edit-upload-area");
-const editUploadInput = document.getElementById("edit-upload-input");
-editUploadArea.addEventListener("click", () => editUploadInput.click());
-editUploadArea.addEventListener("dragover", (e) => { e.preventDefault(); editUploadArea.classList.add("dragover"); });
-editUploadArea.addEventListener("dragleave", () => editUploadArea.classList.remove("dragover"));
-editUploadArea.addEventListener("drop", (e) => {
-  e.preventDefault(); editUploadArea.classList.remove("dragover");
-  uploadEditFiles(Array.from(e.dataTransfer.files));
-});
-editUploadInput.addEventListener("change", () => uploadEditFiles(Array.from(editUploadInput.files)));
-
-async function uploadEditFiles(files) {
-  const progress = document.getElementById("edit-upload-progress");
-  const imageFiles = files.filter(f => f.type.startsWith("image/"));
-  for (let i = 0; i < imageFiles.length; i++) {
-    const f = imageFiles[i];
-    progress.textContent = `Uploading ${i + 1}/${imageFiles.length}: ${f.name}…`;
-    try {
-      const fd = new FormData();
-      fd.append("file", f);
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        headers: { Authorization: "Bearer " + password },
-        body: fd,
-      });
-      if (!res.ok) throw new Error(await res.text());
-      const { url } = await res.json();
-      editMediaItems.push({ type: "image", src: url });
-      renderEditMediaList();
-    } catch (e) {
-      progress.textContent = `Error: ${e.message}`;
-    }
-  }
-  progress.textContent = imageFiles.length ? `Done uploading ${imageFiles.length} image(s).` : "";
-  editUploadInput.value = "";
-}
-
-document.getElementById("edit-add-text-btn").addEventListener("click", () => {
-  editMediaItems.push({ type: "text", content: "" });
-  renderEditMediaList();
-});
-
-document.getElementById("edit-add-video-btn").addEventListener("click", () => {
-  const url = document.getElementById("edit-video-url").value.trim();
-  if (!url) return;
-  const vid = parseVideoUrl(url);
-  if (!vid) { alert("Unrecognised video URL."); return; }
-  editMediaItems.push({ type: "video", platform: vid.platform, id: vid.id });
-  renderEditMediaList();
-  document.getElementById("edit-video-url").value = "";
-});
-
-document.getElementById("edit-form").addEventListener("submit", async (e) => {
+document.getElementById("edit-form").addEventListener("submit", async e => {
   e.preventDefault();
   const btn = document.getElementById("edit-save-btn");
   btn.disabled = true; btn.textContent = "Saving…";
   const f = e.target;
   const artistsRaw = f.artists.value.trim();
+  const items = editBuilder.getItems();
+
+  const hasInvite = items.some(m => m.role === "invite");
+  if (!hasInvite) {
+    const firstImg = items.find(m => m.type === "image");
+    if (firstImg) firstImg.role = "invite";
+  }
+
   const body = {
     id: f.id.value,
     title: f.title.value.trim() || null,
@@ -688,8 +956,7 @@ document.getElementById("edit-form").addEventListener("submit", async (e) => {
     year: parseInt(f.year.value) || null,
     dates: f.dates.value.trim() || null,
     status: f.status.value,
-    description: f.description.value.trim(),
-    media: editMediaItems.slice(),
+    media: items,
   };
   try {
     const res = await fetch("/api/exhibitions", {
@@ -699,13 +966,15 @@ document.getElementById("edit-form").addEventListener("submit", async (e) => {
     });
     if (!res.ok) throw new Error(await res.text());
     const statusEl = document.getElementById("edit-status");
-    statusEl.textContent = "Saved!";
-    statusEl.style.cssText = "padding:8px;background:#e8f5e9;border-left:3px solid #4caf50;margin-bottom:12px;";
+    statusEl.textContent = "Saved.";
+    statusEl.className = "ok";
+    statusEl.style.display = "block";
     loadExhibitions();
   } catch (err) {
     const statusEl = document.getElementById("edit-status");
     statusEl.textContent = "Error: " + err.message;
-    statusEl.style.cssText = "padding:8px;background:#ffebee;border-left:3px solid #c00;margin-bottom:12px;";
+    statusEl.className = "err";
+    statusEl.style.display = "block";
   }
   btn.disabled = false; btn.textContent = "Save Changes";
 });
@@ -713,10 +982,7 @@ document.getElementById("edit-form").addEventListener("submit", async (e) => {
 // ---- Seed / reset ----
 document.getElementById("seed-btn").addEventListener("click", async () => {
   if (!confirm("Seed the database with historical exhibitions?")) return;
-  const res = await fetch("/api/seed", {
-    method: "POST",
-    headers: { Authorization: "Bearer " + password },
-  });
+  const res = await fetch("/api/seed", { method: "POST", headers: { Authorization: "Bearer " + password } });
   const data = await res.json();
   if (res.ok && data.ok) showStatus(`Seeded ${data.count} exhibitions.`, "ok");
   else showStatus(data.message || "Seed failed.", "err");
@@ -725,24 +991,9 @@ document.getElementById("seed-btn").addEventListener("click", async () => {
 document.getElementById("reset-btn").addEventListener("click", async () => {
   if (!confirm("DELETE ALL exhibition data? This cannot be undone.")) return;
   if (!confirm("Are you sure? All data will be erased.")) return;
-  const res = await fetch("/api/seed", {
-    method: "DELETE",
-    headers: { Authorization: "Bearer " + password },
-  });
+  const res = await fetch("/api/seed", { method: "DELETE", headers: { Authorization: "Bearer " + password } });
   if (res.ok) { showStatus("All data reset.", "ok"); loadExhibitions(); }
   else showStatus("Reset failed.", "err");
-});
-
-// ---- Wire up login form after DOM is ready ----
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("login-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    login();
-  });
-  document.getElementById("login-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    login();
-  });
 });
 </script>
 </body>
