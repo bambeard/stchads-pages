@@ -21,14 +21,13 @@
     #page {
       max-width: 960px;
       margin: 0 auto;
-      padding: 20px 20px 60px;
+      padding: 20px 20px 80px;
     }
 
     /* ---- Header ---- */
     #header {
       display: flex;
       align-items: flex-start;
-      margin-bottom: 0;
     }
 
     #header-text {
@@ -49,26 +48,23 @@
       line-height: 14px;
     }
 
+    #address p { margin: 0; }
     #address a, #contact a { color: #000; text-decoration: none; }
 
-    #contact {
-      font-size: 12px;
-      line-height: 14px;
-    }
-
+    #contact { font-size: 12px; line-height: 14px; }
     #contact-email { margin-top: 12px; }
     #contact-ig    { margin-top: 4px; }
 
     #header-logo {
       flex: 0 0 35%;
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
     }
 
     #header-logo img {
       width: 214px;
       height: 214px;
       display: block;
-      margin-left: auto;
     }
 
     /* ---- Exhibitions ---- */
@@ -76,57 +72,81 @@
       margin-top: 158px;
     }
 
-    .exhibition {
-      margin-bottom: 100px;
+    /* Each exhibition block; gap between shows ~191px */
+    .exhibition + .exhibition {
+      margin-top: 191px;
     }
 
-    /* Invite/flyer — centred, natural size */
-    .invite-wrap {
+    /* Every media item gets a top margin by default */
+    .ex-item {
+      margin-top: 17px;
+    }
+
+    /* Invite/flyer: no top margin (it's the first item), centred */
+    .ex-item.is-invite {
+      margin-top: 0;
       text-align: center;
-      margin-bottom: 4px;
     }
 
-    .invite-wrap img {
+    .ex-item.is-invite img {
       display: inline-block;
       max-width: 100%;
       height: auto;
     }
 
-    /* Exhibition text block — centred, 12/14 */
-    .exhibition-text {
-      text-align: center;
-      font-size: 12px;
-      line-height: 14px;
-      margin-top: 35px;
-      margin-bottom: 17px;
-      width: 86.96%;
-      margin-left: auto;
-      margin-right: auto;
+    /* Second item after invite (first photo or text) gets 55px */
+    .ex-item.is-invite + .ex-item {
+      margin-top: 55px;
     }
 
-    .exhibition-text p { margin: 0; }
-    .exhibition-text p + p { margin-top: 0.5em; }
-
-    /* Remaining photos — full column width */
-    .exhibition-photos img {
+    /* Regular photos: full width */
+    .ex-item.is-image img {
       display: block;
       width: 100%;
       height: auto;
-      margin-bottom: 4px;
     }
 
-    .video-embed {
+    /* Text block: centred, 86.96% wide, 16px top */
+    .ex-item.is-text {
+      margin-top: 16px;
+      text-align: center;
+      width: 86.96%;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    /* Item after a text block */
+    .ex-item.is-text + .ex-item {
+      margin-top: 17px;
+    }
+
+    .ex-item.is-text p { margin: 0; }
+    .ex-item.is-text p + p { margin-top: 0.5em; }
+
+    /* Video embed */
+    .ex-item.is-video {
+      margin-top: 23px;
+    }
+
+    .video-wrap {
       position: relative;
       width: 86.96%;
-      margin: 0 auto 4px;
+      margin: 0 auto;
       padding-bottom: calc(86.96% * 0.5625);
     }
 
-    .video-embed iframe {
+    .video-wrap iframe {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       border: 0;
+    }
+
+    /* Item after video */
+    .ex-item.is-video + .ex-item {
+      margin-top: 34px;
     }
 
     .loading { padding: 40px 0; color: #666; }
@@ -135,9 +155,10 @@
     @media (max-width: 640px) {
       #header { flex-direction: column-reverse; gap: 16px; }
       #header-text { padding-top: 0; flex: 1; width: 100%; }
-      #header-logo { flex: none; width: 100%; text-align: center; }
-      #header-logo img { margin: 0 auto; width: 120px; height: 120px; }
+      #header-logo { flex: none; width: 100%; justify-content: center; }
+      #header-logo img { width: 120px; height: 120px; }
       #exhibitions { margin-top: 60px; }
+      .exhibition + .exhibition { margin-top: 80px; }
     }
   </style>
 </head>
@@ -193,39 +214,27 @@
 
 function renderExhibition(ex) {
   const media = ex.media || [];
-  const invite = media.find(m => m.type === "image" && m.role === "invite");
-  const rest   = media.filter(m => !(m.type === "image" && m.role === "invite"));
-
-  const inviteHtml = invite
-    ? `<div class="invite-wrap"><img src="${esc(invite.src)}" alt="" loading="lazy" /></div>`
-    : "";
-
-  const descHtml = renderDescription(ex.description);
-
-  const restHtml = rest.length
-    ? `<div class="exhibition-photos">${rest.map(renderMedia).join("")}</div>`
-    : "";
-
-  return `<div class="exhibition" id="ex-${esc(ex.id)}">
-    ${inviteHtml}
-    ${descHtml ? `<div class="exhibition-text">${descHtml}</div>` : ""}
-    ${restHtml}
-  </div>`;
+  const items = media.map(renderItem).filter(Boolean);
+  return `<div class="exhibition" id="ex-${esc(ex.id)}">${items.join("")}</div>`;
 }
 
-function renderDescription(text) {
-  if (!text) return "";
-  return text
-    .split("\n\n")
-    .map(p => p.trim())
-    .filter(Boolean)
-    .map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)
-    .join("");
-}
-
-function renderMedia(m) {
+function renderItem(m) {
+  if (m.type === "image" && m.role === "invite") {
+    return `<div class="ex-item is-invite"><img src="${esc(m.src)}" alt="" loading="lazy" /></div>`;
+  }
   if (m.type === "image") {
-    return `<img src="${esc(m.src)}" alt="" loading="lazy" />`;
+    return `<div class="ex-item is-image"><img src="${esc(m.src)}" alt="" loading="lazy" /></div>`;
+  }
+  if (m.type === "text") {
+    const content = m.content || "";
+    if (!content.trim()) return "";
+    const html = content
+      .split("\n\n")
+      .map(p => p.trim())
+      .filter(Boolean)
+      .map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)
+      .join("");
+    return `<div class="ex-item is-text">${html}</div>`;
   }
   if (m.type === "video") {
     let src = "";
@@ -234,7 +243,7 @@ function renderMedia(m) {
     else if (m.platform === "youtube")
       src = `https://www.youtube.com/embed/${esc(m.id)}?loop=1&playlist=${esc(m.id)}&showinfo=0&modestbranding=1&controls=1`;
     if (!src) return "";
-    return `<div class="video-embed"><iframe src="${src}" allowfullscreen></iframe></div>`;
+    return `<div class="ex-item is-video"><div class="video-wrap"><iframe src="${src}" allowfullscreen></iframe></div></div>`;
   }
   return "";
 }

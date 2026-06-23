@@ -213,20 +213,19 @@
 
         <!-- Media section -->
         <div class="form-row">
-          <label>Media (images + videos)</label>
+          <label>Media — images, text blocks and videos in order</label>
           <div id="media-list"></div>
-
-          <div class="upload-area" id="upload-area">
-            Click or drag images here to upload
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+            <div class="upload-area" id="upload-area" style="flex:1;min-width:160px;margin-bottom:0;">Upload Images</div>
+            <button type="button" id="add-text-btn" class="btn-secondary">+ Text Block</button>
           </div>
           <input type="file" id="upload-input" accept="image/*" multiple />
           <div class="upload-progress" id="upload-progress"></div>
-
-          <div class="video-row" style="margin-top:8px;">
+          <div class="video-row" style="margin-top:6px;">
             <input type="text" id="video-url-input" placeholder="Vimeo or YouTube URL" />
             <button type="button" id="add-video-btn" class="btn-secondary">Add Video</button>
           </div>
-          <p class="form-hint">Images upload immediately. Videos are added by URL.</p>
+          <p class="form-hint">Drag images or click to upload. Use ↑↓ to reorder any item.</p>
         </div>
 
         <button type="submit" id="save-btn">Save Exhibition</button>
@@ -279,7 +278,10 @@
           <div class="form-row">
             <label>Media</label>
             <div id="edit-media-list" style="border:1px solid #eee;margin-bottom:8px;min-height:20px;"></div>
-            <div class="upload-area" id="edit-upload-area" style="margin-bottom:8px;">Click or drag images here to add</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+              <div class="upload-area" id="edit-upload-area" style="flex:1;min-width:140px;margin-bottom:0;">Upload Images</div>
+              <button type="button" id="edit-add-text-btn" class="btn-secondary">+ Text Block</button>
+            </div>
             <input type="file" id="edit-upload-input" accept="image/*" multiple style="display:none;" />
             <div id="edit-upload-progress" style="font-size:12px;color:#666;margin-bottom:8px;"></div>
             <div class="video-row">
@@ -381,26 +383,53 @@ document.querySelectorAll(".tab").forEach((tab) => {
 });
 
 // ---- Media builder ----
+function mediaItemLabel(m) {
+  if (m.type === "image") return (m.src || "").split("/").pop() || "image";
+  if (m.type === "text") return "Text: " + (m.content || "").slice(0, 50).replace(/\n/g, " ") + "…";
+  if (m.type === "video") return (m.platform || "") + ": " + (m.id || "");
+  return m.type;
+}
+
 function renderMediaList() {
-  const el = document.getElementById("media-list");
-  if (mediaItems.length === 0) {
-    el.innerHTML = "";
-    return;
-  }
-  el.innerHTML = mediaItems
-    .map(
-      (m, i) => `<div class="media-item">
-        <span class="media-item-label">${escHtml(m.type === "image" ? m.src.split("/").pop() : m.platform + ": " + m.id)}</span>
-        ${m.role === "invite" ? '<span style="font-size:11px;background:#000;color:#fff;padding:1px 4px">invite</span>' : ""}
-        <button class="media-item-remove" data-i="${i}" title="Remove">×</button>
-      </div>`
-    )
-    .join("");
-  el.querySelectorAll(".media-item-remove").forEach((btn) => {
+  renderMediaListInto("media-list", mediaItems, false);
+}
+
+function renderMediaListInto(listId, items, isEdit) {
+  const el = document.getElementById(listId);
+  if (!items.length) { el.innerHTML = ""; return; }
+  el.innerHTML = items.map((m, i) => `
+    <div class="media-item" data-i="${i}">
+      <div style="display:flex;flex-direction:column;gap:2px;margin-right:4px;">
+        <button class="btn-move-up" data-i="${i}" style="background:none;border:1px solid #ccc;padding:1px 5px;font-size:10px;cursor:pointer;" title="Move up">↑</button>
+        <button class="btn-move-dn" data-i="${i}" style="background:none;border:1px solid #ccc;padding:1px 5px;font-size:10px;cursor:pointer;" title="Move down">↓</button>
+      </div>
+      ${m.type === "text"
+        ? `<textarea class="media-text-edit" data-i="${i}" style="flex:1;height:60px;font-size:12px;padding:4px;resize:vertical;">${escHtml(m.content || "")}</textarea>`
+        : `<span class="media-item-label" style="flex:1;">${escHtml(mediaItemLabel(m))}</span>`
+      }
+      ${m.role === "invite" ? '<span style="font-size:11px;background:#000;color:#fff;padding:1px 4px;white-space:nowrap;">invite</span>' : ""}
+      <span style="font-size:11px;color:#999;margin:0 4px;">${m.type}</span>
+      <button class="media-item-remove" data-i="${i}" title="Remove" style="background:none;border:none;cursor:pointer;color:#999;font-size:18px;padding:0 4px;line-height:1;">×</button>
+    </div>`).join("");
+
+  // Bind events
+  el.querySelectorAll(".media-item-remove").forEach(btn => {
+    btn.addEventListener("click", () => { items.splice(Number(btn.dataset.i), 1); renderMediaListInto(listId, items, isEdit); });
+  });
+  el.querySelectorAll(".btn-move-up").forEach(btn => {
     btn.addEventListener("click", () => {
-      mediaItems.splice(Number(btn.dataset.i), 1);
-      renderMediaList();
+      const i = Number(btn.dataset.i);
+      if (i > 0) { [items[i-1], items[i]] = [items[i], items[i-1]]; renderMediaListInto(listId, items, isEdit); }
     });
+  });
+  el.querySelectorAll(".btn-move-dn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const i = Number(btn.dataset.i);
+      if (i < items.length - 1) { [items[i], items[i+1]] = [items[i+1], items[i]]; renderMediaListInto(listId, items, isEdit); }
+    });
+  });
+  el.querySelectorAll(".media-text-edit").forEach(ta => {
+    ta.addEventListener("input", () => { items[Number(ta.dataset.i)].content = ta.value; });
   });
 }
 
@@ -446,6 +475,12 @@ async function uploadFiles(files) {
   progress.textContent = `Done uploading ${imageFiles.length} image(s).`;
   uploadInput.value = "";
 }
+
+// Add text block
+document.getElementById("add-text-btn").addEventListener("click", () => {
+  mediaItems.push({ type: "text", content: "" });
+  renderMediaList();
+});
 
 // Add video
 document.getElementById("add-video-btn").addEventListener("click", () => {
@@ -575,20 +610,7 @@ async function openEdit(id) {
 }
 
 function renderEditMediaList() {
-  const el = document.getElementById("edit-media-list");
-  if (!editMediaItems.length) { el.innerHTML = ""; return; }
-  el.innerHTML = editMediaItems.map((m, i) => `
-    <div class="media-item">
-      <span class="media-item-label">${escHtml(m.type === "image" ? m.src.split("/").pop() : m.platform + ": " + m.id)}</span>
-      ${m.role === "invite" ? '<span style="font-size:11px;background:#000;color:#fff;padding:1px 4px">invite</span>' : ""}
-      <button class="media-item-remove" data-i="${i}" title="Remove">×</button>
-    </div>`).join("");
-  el.querySelectorAll(".media-item-remove").forEach(btn => {
-    btn.addEventListener("click", () => {
-      editMediaItems.splice(Number(btn.dataset.i), 1);
-      renderEditMediaList();
-    });
-  });
+  renderMediaListInto("edit-media-list", editMediaItems, true);
 }
 
 document.getElementById("edit-close-btn").addEventListener("click", () => {
@@ -637,6 +659,11 @@ async function uploadEditFiles(files) {
   progress.textContent = imageFiles.length ? `Done uploading ${imageFiles.length} image(s).` : "";
   editUploadInput.value = "";
 }
+
+document.getElementById("edit-add-text-btn").addEventListener("click", () => {
+  editMediaItems.push({ type: "text", content: "" });
+  renderEditMediaList();
+});
 
 document.getElementById("edit-add-video-btn").addEventListener("click", () => {
   const url = document.getElementById("edit-video-url").value.trim();
