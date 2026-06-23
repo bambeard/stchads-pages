@@ -26,12 +26,11 @@
 
     /* ---- Header ---- */
     #header {
-      display: flex;
-      align-items: flex-start;
+      position: relative;
+      min-height: 214px;
     }
 
     #header-text {
-      flex: 0 0 65%;
       text-align: center;
       padding-top: 71px;
     }
@@ -64,9 +63,9 @@
     #contact-ig    { margin-top: 4px; }
 
     #header-logo {
-      flex: 0 0 35%;
-      display: flex;
-      justify-content: flex-end;
+      position: absolute;
+      top: 0;
+      right: 0;
     }
 
     #header-logo img {
@@ -168,10 +167,10 @@
 
     /* Mobile */
     @media (max-width: 640px) {
-      #header { flex-direction: column-reverse; gap: 16px; }
-      #header-text { padding-top: 0; flex: 1; width: 100%; }
-      #header-logo { flex: none; width: 100%; justify-content: center; }
-      #header-logo img { width: 120px; height: 120px; }
+      #header { min-height: auto; padding-bottom: 16px; }
+      #header-logo { position: static; text-align: center; margin-bottom: 12px; }
+      #header-logo img { width: 120px; height: 120px; display: inline-block; }
+      #header-text { padding-top: 0; }
       #exhibitions { margin-top: 60px; }
       .exhibition + .exhibition { margin-top: 80px; }
       .ex-item.is-invite img { max-width: 90%; }
