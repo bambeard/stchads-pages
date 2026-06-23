@@ -15,25 +15,24 @@
       background: #fff;
     }
 
-    a { color: #000; }
+    a { color: #000; text-decoration: none; }
 
     #page { max-width: 800px; margin: 0 auto; padding: 30px 20px 80px; }
 
     /* ---- Header ---- */
     #admin-header {
       border-bottom: 1px solid #000;
-      padding-bottom: 14px;
-      margin-bottom: 30px;
+      padding-bottom: 12px;
+      margin-bottom: 28px;
       display: flex;
       align-items: baseline;
       justify-content: space-between;
     }
     #admin-header h1 { font-size: 24px; line-height: 29px; font-weight: normal; }
-    #admin-header a { font-size: 12px; }
 
     /* ---- Auth ---- */
-    #auth-screen { max-width: 300px; padding-top: 40px; }
-    #auth-screen label { display: block; margin-bottom: 6px; font-size: 12px; }
+    #auth-screen { max-width: 280px; padding-top: 40px; }
+    #auth-screen label { display: block; margin-bottom: 6px; }
     #auth-screen input[type="password"] {
       width: 100%; padding: 6px 8px;
       border: 1px solid #000;
@@ -43,12 +42,7 @@
     #auth-error { color: #c00; margin-top: 6px; font-size: 12px; display: none; }
 
     /* ---- Tabs ---- */
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid #000;
-      margin-bottom: 28px;
-      gap: 0;
-    }
+    .tabs { display: flex; border-bottom: 1px solid #000; margin-bottom: 28px; }
     .tab {
       padding: 6px 14px;
       cursor: pointer;
@@ -59,12 +53,7 @@
       background: none;
       color: #999;
     }
-    .tab.active {
-      border-color: #000;
-      color: #000;
-      background: #fff;
-      margin-bottom: -1px;
-    }
+    .tab.active { border-color: #000; color: #000; background: #fff; margin-bottom: -1px; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
@@ -95,17 +84,13 @@
       font-family: inherit;
       border-radius: 0;
       appearance: none;
-      -webkit-appearance: none;
     }
     .form-row input:focus,
     .form-row textarea:focus,
-    .form-row select:focus {
-      outline: none;
-      border-color: #000;
-    }
+    .form-row select:focus { outline: none; border-color: #000; }
     .form-row textarea { height: 80px; resize: vertical; }
     .form-row input[type="number"] { width: 90px; }
-    .form-hint { font-size: 11px; color: #999; margin-top: 3px; }
+    .form-hint { font-size: 11px; color: #999; margin-top: 4px; }
 
     /* ---- Buttons ---- */
     button, .btn {
@@ -116,158 +101,171 @@
       cursor: pointer;
       font-size: 12px;
       font-family: inherit;
-      border-radius: 0;
     }
     button:hover { background: #333; }
-    .btn-ghost {
-      background: #fff;
-      color: #000;
-    }
+    .btn-ghost { background: #fff; color: #000; }
     .btn-ghost:hover { background: #f4f4f4; }
     .btn-danger { background: #fff; color: #c00; border-color: #c00; }
     .btn-danger:hover { background: #fff0f0; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ---- Block builder ---- */
-    .block-section-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #666;
-      margin-bottom: 8px;
-    }
+    /* ============================================================
+       BLOCK BUILDER — blocks look like the live site
+       ============================================================ */
 
     .block-list {
+      border: 1px solid #e8e8e8;
+      margin-bottom: 10px;
       min-height: 40px;
-      margin-bottom: 12px;
-      position: relative;
     }
-    .block-list.drag-active .block-item { opacity: 0.8; }
 
+    .block-list-empty {
+      padding: 20px;
+      text-align: center;
+      color: #bbb;
+      font-size: 12px;
+    }
+
+    /* The outer shell of each block */
     .block-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-      border: 1px solid #e0e0e0;
-      margin-bottom: 4px;
-      background: #fff;
       position: relative;
-      transition: opacity 0.15s;
-      cursor: default;
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
     }
-    .block-item.dragging { opacity: 0.35; }
-    .block-item.drag-over-top { border-top: 2px solid #000; }
-    .block-item.drag-over-bottom { border-bottom: 2px solid #000; }
+    .block-item:last-child { border-bottom: none; }
 
-    .block-handle {
-      width: 28px;
-      min-height: 40px;
+    /* Thin top bar: drag handle + type label + controls */
+    .block-bar {
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: grab;
-      color: #ccc;
-      font-size: 14px;
-      flex-shrink: 0;
+      gap: 8px;
+      padding: 4px 8px;
+      background: #fafafa;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 10px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       user-select: none;
-      border-right: 1px solid #e0e0e0;
+    }
+    .block-handle {
+      cursor: grab;
+      font-size: 13px;
+      color: #ccc;
+      padding: 0 2px;
+      flex-shrink: 0;
     }
     .block-handle:active { cursor: grabbing; }
+    .block-bar-type { flex: 1; }
+    .block-bar-actions { display: flex; gap: 4px; align-items: center; }
 
-    .block-type-badge {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #999;
-      padding: 4px 6px;
-      border-right: 1px solid #e0e0e0;
-      min-width: 44px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .block-content { flex: 1; padding: 6px 8px; min-width: 0; }
-
-    /* Image block */
-    .block-image-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .block-thumb {
-      width: 48px;
-      height: 36px;
-      object-fit: cover;
-      display: block;
-      flex-shrink: 0;
-      background: #f4f4f4;
-    }
-    .block-image-name {
-      font-size: 11px;
-      color: #666;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      flex: 1;
-    }
-    .block-invite-toggle {
+    /* Invite toggle button */
+    .invite-toggle {
       font-size: 10px;
       padding: 2px 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: #fff;
+      border: 1px solid #ccc;
+      color: #aaa;
       cursor: pointer;
-      flex-shrink: 0;
-    }
-    .block-invite-toggle.is-invite {
-      background: #000;
-      color: #fff;
-      border-color: #000;
-    }
-
-    /* Text block */
-    .block-textarea {
-      width: 100%;
-      min-height: 56px;
-      border: none;
       font-family: inherit;
-      font-size: 12px;
-      line-height: 14px;
-      resize: vertical;
-      padding: 0;
-      outline: none;
-      background: transparent;
     }
+    .invite-toggle.active { background: #000; border-color: #000; color: #fff; }
+    .invite-toggle:hover { border-color: #000; }
 
-    /* Video block */
-    .block-video-info { font-size: 12px; color: #666; }
-
-    /* Remove button */
     .block-remove {
-      width: 28px;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: none;
       border: none;
-      border-left: 1px solid #e0e0e0;
       cursor: pointer;
       color: #ccc;
       font-size: 16px;
-      padding: 0;
-      flex-shrink: 0;
+      padding: 0 2px;
+      line-height: 1;
+      font-family: inherit;
     }
-    .block-remove:hover { color: #c00; background: #fff0f0; }
+    .block-remove:hover { color: #c00; }
 
-    .block-list-empty {
-      border: 1px dashed #ccc;
-      padding: 20px;
+    /* Drag states */
+    .block-item.dragging { opacity: 0.3; }
+    .block-item.drag-over-top { box-shadow: inset 0 3px 0 #000; }
+    .block-item.drag-over-bottom { box-shadow: inset 0 -3px 0 #000; }
+
+    /* ---- Image block preview ---- */
+    /* Invite: centred, max 74% width — mirrors live site */
+    .block-preview-invite {
+      text-align: center;
+      padding: 12px 0;
+    }
+    .block-preview-invite img {
+      display: inline-block;
+      max-width: 74%;
+      max-height: 300px;
+      width: auto;
+      height: auto;
+    }
+
+    /* Regular image: 86.96% centred — mirrors live site */
+    .block-preview-image {
+      width: 86.96%;
+      margin: 0 auto;
+      padding: 0;
+    }
+    .block-preview-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+    }
+
+    /* ---- Text block preview ---- */
+    /* 86.96% centred, same font — mirrors live site */
+    .block-preview-text {
+      width: 86.96%;
+      margin: 12px auto;
       text-align: center;
       font-size: 12px;
-      color: #999;
-      margin-bottom: 4px;
+      line-height: 14px;
     }
+    .block-preview-text textarea {
+      width: 100%;
+      border: none;
+      border-bottom: 1px dashed #ddd;
+      font-family: Times, "Times New Roman", Georgia, serif;
+      font-size: 12px;
+      line-height: 14px;
+      text-align: center;
+      background: transparent;
+      resize: vertical;
+      min-height: 42px;
+      padding: 4px 0;
+      outline: none;
+    }
+    .block-preview-text textarea:focus { border-bottom-color: #000; }
+    .block-preview-text textarea::placeholder { color: #bbb; }
+
+    /* ---- Video block preview ---- */
+    /* Aspect-ratio box, 86.96% wide — mirrors live site */
+    .block-preview-video {
+      width: 86.96%;
+      margin: 0 auto;
+      position: relative;
+      padding-bottom: calc(86.96% * 0.5625);
+      background: #f4f4f4;
+    }
+    .block-preview-video-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 12px;
+      gap: 4px;
+    }
+    .block-preview-video-label strong { color: #666; }
 
     /* ---- Upload area ---- */
     .upload-area {
@@ -281,21 +279,17 @@
     }
     .upload-area:hover { background: #f9f9f9; }
     .upload-area.dragover { background: #f4f4f4; border-style: solid; }
-    .upload-progress { font-size: 11px; color: #999; margin-top: 4px; min-height: 14px; }
+    .upload-progress { font-size: 11px; color: #999; min-height: 14px; margin-bottom: 6px; }
 
-    /* ---- Add block controls ---- */
+    /* ---- Block controls bar ---- */
     .block-controls {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 6px;
       align-items: center;
+      margin-bottom: 6px;
     }
-    .video-input-row {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
+    .video-input-row { display: flex; gap: 6px; flex: 1; min-width: 200px; }
     .video-input-row input {
       flex: 1;
       padding: 6px 8px;
@@ -317,14 +311,7 @@
     .ex-row:last-child { border-bottom: none; }
     .ex-row-title { flex: 1; }
     .ex-row-meta { color: #999; font-size: 11px; white-space: nowrap; }
-    .ex-badge {
-      font-size: 10px;
-      padding: 1px 5px;
-      background: #000;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
+    .ex-badge { font-size: 10px; padding: 1px 5px; background: #000; color: #fff; text-transform: uppercase; }
     .ex-row-actions { display: flex; gap: 4px; }
     .ex-row-actions button { padding: 3px 8px; font-size: 11px; }
 
@@ -339,31 +326,22 @@
     }
     #edit-modal {
       background: #fff;
-      max-width: 680px;
+      max-width: 700px;
       margin: 40px auto;
       padding: 30px;
       border-top: 3px solid #000;
     }
-    #edit-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 24px;
-    }
+    #edit-modal-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
     #edit-modal-header h2 { border: none; padding: 0; margin: 0; font-size: 18px; }
     #edit-status {
-      margin-bottom: 14px;
-      font-size: 12px;
-      padding: 7px 10px;
-      display: none;
-      border-left: 2px solid;
+      margin-bottom: 14px; font-size: 12px; padding: 7px 10px; display: none; border-left: 2px solid;
     }
     #edit-status.ok { background: #f4f4f4; border-color: #000; display: block; }
     #edit-status.err { background: #fff0f0; border-color: #c00; color: #c00; display: block; }
 
     /* ---- Seed tab ---- */
-    #tab-seed p { font-size: 12px; color: #666; margin-bottom: 14px; line-height: 18px; }
-    .seed-actions { display: flex; gap: 10px; align-items: center; }
+    #tab-seed p { color: #666; margin-bottom: 14px; line-height: 18px; }
+    .seed-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .seed-note { font-size: 11px; color: #999; }
   </style>
 </head>
@@ -405,14 +383,14 @@
         </div>
         <div class="form-row">
           <label>Artist(s)</label>
-          <input type="text" name="artists" placeholder="Comma-separated: Artist One, Artist Two" />
+          <input type="text" name="artists" placeholder="Comma-separated" />
         </div>
-        <div style="display:flex;gap:16px;">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
           <div class="form-row" style="flex:0 0 auto;">
             <label>Year</label>
             <input type="number" name="year" min="2000" max="2100" />
           </div>
-          <div class="form-row" style="flex:1;">
+          <div class="form-row" style="flex:1;min-width:140px;">
             <label>Dates (optional)</label>
             <input type="text" name="dates" placeholder="e.g. 1–28 March 2025" />
           </div>
@@ -425,25 +403,22 @@
           </div>
         </div>
 
-        <!-- Block builder -->
         <div class="form-row">
-          <label>Content Blocks</label>
-          <div id="add-block-list" class="block-list"></div>
-
-          <div class="upload-area" id="add-upload-area">
-            Drop images here, or click to select
+          <label>Content — drag to reorder, first image is the invite/flyer</label>
+          <div id="add-block-list" class="block-list">
+            <div class="block-list-empty">No blocks yet — upload images or add text / video blocks below.</div>
           </div>
+          <div class="upload-area" id="add-upload-area">Drop images here, or click to select</div>
           <input type="file" id="add-upload-input" accept="image/*" multiple style="display:none;" />
           <div class="upload-progress" id="add-upload-progress"></div>
-
           <div class="block-controls">
             <button type="button" id="add-text-btn" class="btn-ghost">+ Text Block</button>
-            <div class="video-input-row" style="flex:1;margin:0;">
+            <div class="video-input-row">
               <input type="text" id="add-video-url" placeholder="Vimeo or YouTube URL" />
               <button type="button" id="add-video-btn" class="btn-ghost">+ Video</button>
             </div>
           </div>
-          <p class="form-hint">Drag blocks by the grip handle to reorder. First image is automatically the invite/flyer.</p>
+          <p class="form-hint">Grab the ⠿ handle on any block and drag to reorder. The invite toggle marks the flyer image (displayed centred and smaller).</p>
         </div>
 
         <button type="submit" id="save-btn">Save Exhibition</button>
@@ -486,12 +461,12 @@
           <label>Artist(s)</label>
           <input type="text" name="artists" placeholder="Comma-separated" />
         </div>
-        <div style="display:flex;gap:16px;">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
           <div class="form-row" style="flex:0 0 auto;">
             <label>Year</label>
             <input type="number" name="year" min="2000" max="2100" />
           </div>
-          <div class="form-row" style="flex:1;">
+          <div class="form-row" style="flex:1;min-width:140px;">
             <label>Dates (optional)</label>
             <input type="text" name="dates" />
           </div>
@@ -504,18 +479,14 @@
           </div>
         </div>
         <div class="form-row">
-          <label>Content Blocks</label>
+          <label>Content — drag to reorder</label>
           <div id="edit-block-list" class="block-list"></div>
-
-          <div class="upload-area" id="edit-upload-area">
-            Drop images here, or click to select
-          </div>
+          <div class="upload-area" id="edit-upload-area">Drop images here, or click to select</div>
           <input type="file" id="edit-upload-input" accept="image/*" multiple style="display:none;" />
           <div class="upload-progress" id="edit-upload-progress"></div>
-
           <div class="block-controls">
             <button type="button" id="edit-text-btn" class="btn-ghost">+ Text Block</button>
-            <div class="video-input-row" style="flex:1;margin:0;">
+            <div class="video-input-row">
               <input type="text" id="edit-video-url" placeholder="Vimeo or YouTube URL" />
               <button type="button" id="edit-video-btn" class="btn-ghost">+ Video</button>
             </div>
@@ -532,7 +503,6 @@
 
 let password = "";
 
-// ---- Utilities ----
 function esc(s) {
   if (s == null) return "";
   return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -555,9 +525,11 @@ function parseVideoUrl(url) {
   return null;
 }
 
-// ---- MediaBuilder: drag-and-drop block list ----
+// ============================================================
+// MediaBuilder — drag-and-drop, site-matching previews
+// ============================================================
 class MediaBuilder {
-  constructor(listId, uploadAreaId, uploadInputId, progressId) {
+  constructor({ listId, uploadAreaId, uploadInputId, progressId }) {
     this.items = [];
     this.listEl = document.getElementById(listId);
     this.uploadArea = document.getElementById(uploadAreaId);
@@ -568,12 +540,33 @@ class MediaBuilder {
   }
 
   setItems(items) {
-    this.items = items.map(m => Object.assign({}, m));
+    this.items = items.map(m => ({ ...m }));
     this._render();
   }
 
   getItems() {
+    // Sync any textarea values before returning
+    this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
+      const i = parseInt(ta.dataset.i, 10);
+      if (this.items[i]) this.items[i].content = ta.value;
+    });
     return this.items.slice();
+  }
+
+  addText() {
+    this.items.push({ type: "text", content: "" });
+    this._render();
+    // Focus the new textarea
+    const textareas = this.listEl.querySelectorAll(".block-preview-text textarea");
+    if (textareas.length) textareas[textareas.length - 1].focus();
+  }
+
+  addVideo(url) {
+    const v = parseVideoUrl(url);
+    if (!v) return false;
+    this.items.push({ type: "video", platform: v.platform, id: v.id });
+    this._render();
+    return true;
   }
 
   _wireUpload() {
@@ -591,11 +584,11 @@ class MediaBuilder {
   }
 
   async _uploadFiles(files) {
-    const images = files.filter(f => f.type.startsWith("image/"));
-    if (!images.length) return;
-    for (let i = 0; i < images.length; i++) {
-      const f = images[i];
-      this.progressEl.textContent = `Uploading ${i + 1}/${images.length}: ${f.name}…`;
+    const imgs = files.filter(f => f.type.startsWith("image/"));
+    if (!imgs.length) return;
+    for (let i = 0; i < imgs.length; i++) {
+      const f = imgs[i];
+      this.progressEl.textContent = `Uploading ${i + 1}/${imgs.length}: ${f.name}…`;
       try {
         const fd = new FormData();
         fd.append("file", f);
@@ -609,84 +602,71 @@ class MediaBuilder {
         this.items.push({ type: "image", src: url });
         this._render();
       } catch (err) {
-        this.progressEl.textContent = "Error: " + err.message;
+        this.progressEl.textContent = "Upload error: " + err.message;
         return;
       }
     }
-    this.progressEl.textContent = `Uploaded ${images.length} image${images.length > 1 ? "s" : ""}.`;
+    this.progressEl.textContent = `Uploaded ${imgs.length} image${imgs.length > 1 ? "s" : ""}.`;
     this.uploadInput.value = "";
     setTimeout(() => { this.progressEl.textContent = ""; }, 3000);
   }
 
-  addText() {
-    this.items.push({ type: "text", content: "" });
-    this._render();
-  }
-
-  addVideo(url) {
-    const v = parseVideoUrl(url);
-    if (!v) return false;
-    this.items.push({ type: "video", platform: v.platform, id: v.id });
-    this._render();
-    return true;
-  }
-
+  // ------ Rendering ------
   _render() {
-    const items = this.items;
-    if (!items.length) {
-      this.listEl.innerHTML = '<div class="block-list-empty">No blocks yet — upload images or add text/video blocks below.</div>';
+    if (!this.items.length) {
+      this.listEl.innerHTML = '<div class="block-list-empty">No blocks yet — upload images or add text / video blocks below.</div>';
       return;
     }
 
-    this.listEl.innerHTML = items.map((m, i) => this._renderBlock(m, i)).join("");
+    this.listEl.innerHTML = this.items.map((m, i) => this._blockHTML(m, i)).join("");
 
     // Drag events
-    this.listEl.querySelectorAll(".block-handle").forEach(handle => {
-      const item = handle.closest(".block-item");
-      const i = parseInt(item.dataset.i);
-      item.addEventListener("dragstart", e => {
+    this.listEl.querySelectorAll(".block-item").forEach(el => {
+      const i = parseInt(el.dataset.i, 10);
+      el.draggable = true;
+
+      el.querySelector(".block-handle").addEventListener("mousedown", () => {
+        el.draggable = true;
+      });
+
+      el.addEventListener("dragstart", e => {
         this._dragIndex = i;
         e.dataTransfer.effectAllowed = "move";
-        setTimeout(() => item.classList.add("dragging"), 0);
-        this.listEl.classList.add("drag-active");
+        setTimeout(() => el.classList.add("dragging"), 0);
       });
-      item.addEventListener("dragend", () => {
-        item.classList.remove("dragging");
-        this.listEl.classList.remove("drag-active");
+      el.addEventListener("dragend", () => {
+        el.classList.remove("dragging");
         this.listEl.querySelectorAll(".drag-over-top, .drag-over-bottom").forEach(x => {
           x.classList.remove("drag-over-top", "drag-over-bottom");
         });
         this._dragIndex = -1;
       });
-    });
-
-    this.listEl.querySelectorAll(".block-item").forEach(item => {
-      item.addEventListener("dragover", e => {
+      el.addEventListener("dragover", e => {
         if (this._dragIndex === -1) return;
         e.preventDefault();
-        e.dataTransfer.dropEffect = "move";
         this.listEl.querySelectorAll(".drag-over-top, .drag-over-bottom").forEach(x => {
           x.classList.remove("drag-over-top", "drag-over-bottom");
         });
-        const rect = item.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
-        item.classList.add(e.clientY < mid ? "drag-over-top" : "drag-over-bottom");
+        const rect = el.getBoundingClientRect();
+        el.classList.add(e.clientY < rect.top + rect.height / 2 ? "drag-over-top" : "drag-over-bottom");
       });
-
-      item.addEventListener("dragleave", () => {
-        item.classList.remove("drag-over-top", "drag-over-bottom");
+      el.addEventListener("dragleave", () => {
+        el.classList.remove("drag-over-top", "drag-over-bottom");
       });
-
-      item.addEventListener("drop", e => {
+      el.addEventListener("drop", e => {
         e.preventDefault();
         const from = this._dragIndex;
         if (from === -1) return;
-        const to = parseInt(item.dataset.i);
-        const rect = item.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
-        let insertBefore = e.clientY < mid ? to : to + 1;
-        item.classList.remove("drag-over-top", "drag-over-bottom");
+        const to = parseInt(el.dataset.i, 10);
+        el.classList.remove("drag-over-top", "drag-over-bottom");
+        const rect = el.getBoundingClientRect();
+        let insertBefore = e.clientY < rect.top + rect.height / 2 ? to : to + 1;
         if (from === insertBefore || from + 1 === insertBefore) return;
+        // Sync text before mutation
+        this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
+          const idx = parseInt(ta.dataset.i, 10);
+          if (this.items[idx]) this.items[idx].content = ta.value;
+        });
         const moved = this.items.splice(from, 1)[0];
         if (insertBefore > from) insertBefore--;
         this.items.splice(insertBefore, 0, moved);
@@ -697,17 +677,20 @@ class MediaBuilder {
     // Remove buttons
     this.listEl.querySelectorAll(".block-remove").forEach(btn => {
       btn.addEventListener("click", () => {
-        this.items.splice(parseInt(btn.dataset.i), 1);
+        this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
+          const idx = parseInt(ta.dataset.i, 10);
+          if (this.items[idx]) this.items[idx].content = ta.value;
+        });
+        this.items.splice(parseInt(btn.dataset.i, 10), 1);
         this._render();
       });
     });
 
     // Invite toggles
-    this.listEl.querySelectorAll(".block-invite-toggle").forEach(btn => {
+    this.listEl.querySelectorAll(".invite-toggle").forEach(btn => {
       btn.addEventListener("click", () => {
-        const i = parseInt(btn.dataset.i);
-        const isInvite = this.items[i].role === "invite";
-        if (isInvite) {
+        const i = parseInt(btn.dataset.i, 10);
+        if (this.items[i].role === "invite") {
           delete this.items[i].role;
         } else {
           this.items.forEach(m => delete m.role);
@@ -717,47 +700,73 @@ class MediaBuilder {
       });
     });
 
-    // Text inputs — sync to items
-    this.listEl.querySelectorAll(".block-textarea").forEach(ta => {
+    // Text sync on input
+    this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
       ta.addEventListener("input", () => {
-        this.items[parseInt(ta.dataset.i)].content = ta.value;
+        this.items[parseInt(ta.dataset.i, 10)].content = ta.value;
       });
     });
   }
 
-  _renderBlock(m, i) {
-    const handle = `<div class="block-handle" title="Drag to reorder">⠿</div>`;
-    const remove = `<button class="block-remove" data-i="${i}" title="Remove">×</button>`;
+  _blockHTML(m, i) {
+    const isInvite = m.type === "image" && m.role === "invite";
+    let typeLabel = m.type;
+    if (isInvite) typeLabel = "image · invite";
 
-    let badge = "";
-    let content = "";
+    const inviteBtn = m.type === "image"
+      ? `<button type="button" class="invite-toggle${isInvite ? " active" : ""}" data-i="${i}" title="Mark as invite/flyer">invite</button>`
+      : "";
 
+    const bar = `<div class="block-bar">
+      <span class="block-handle" title="Drag to reorder">⠿</span>
+      <span class="block-bar-type">${typeLabel}</span>
+      <div class="block-bar-actions">
+        ${inviteBtn}
+        <button type="button" class="block-remove" data-i="${i}" title="Remove">×</button>
+      </div>
+    </div>`;
+
+    let preview = "";
     if (m.type === "image") {
-      const isInvite = m.role === "invite";
-      badge = `<div class="block-type-badge">img</div>`;
-      const name = (m.src || "").split("/").pop() || "image";
-      content = `<div class="block-content">
-        <div class="block-image-row">
-          <img class="block-thumb" src="${esc(m.src)}" alt="" />
-          <span class="block-image-name" title="${esc(m.src)}">${esc(name)}</span>
-          <button type="button" class="btn-ghost block-invite-toggle${isInvite ? " is-invite" : ""}" data-i="${i}" title="Mark as invite/flyer image">${isInvite ? "invite ✓" : "invite"}</button>
+      if (isInvite) {
+        preview = `<div class="block-preview-invite">
+          <img src="${esc(m.src)}" alt="" loading="lazy" />
+        </div>`;
+      } else {
+        preview = `<div class="block-preview-image">
+          <img src="${esc(m.src)}" alt="" loading="lazy" />
+        </div>`;
+      }
+    } else if (m.type === "text") {
+      preview = `<div class="block-preview-text">
+        <textarea data-i="${i}" placeholder="Type text here…" rows="3">${esc(m.content || "")}</textarea>
+      </div>`;
+    } else if (m.type === "video") {
+      preview = `<div class="block-preview-video">
+        <div class="block-preview-video-label">
+          <strong>${esc(m.platform)}</strong>
+          <span>${esc(m.id)}</span>
         </div>
       </div>`;
-    } else if (m.type === "text") {
-      badge = `<div class="block-type-badge">text</div>`;
-      content = `<div class="block-content"><textarea class="block-textarea" data-i="${i}" placeholder="Type text here…">${esc(m.content || "")}</textarea></div>`;
-    } else if (m.type === "video") {
-      badge = `<div class="block-type-badge">video</div>`;
-      content = `<div class="block-content"><div class="block-video-info">${esc(m.platform)}: ${esc(m.id)}</div></div>`;
     }
 
-    return `<div class="block-item" data-i="${i}" draggable="true">${handle}${badge}${content}${remove}</div>`;
+    return `<div class="block-item" data-i="${i}">${bar}${preview}</div>`;
   }
 }
 
 // ---- Init builders ----
-const addBuilder = new MediaBuilder("add-block-list", "add-upload-area", "add-upload-input", "add-upload-progress");
-const editBuilder = new MediaBuilder("edit-block-list", "edit-upload-area", "edit-upload-input", "edit-upload-progress");
+const addBuilder = new MediaBuilder({
+  listId: "add-block-list",
+  uploadAreaId: "add-upload-area",
+  uploadInputId: "add-upload-input",
+  progressId: "add-upload-progress",
+});
+const editBuilder = new MediaBuilder({
+  listId: "edit-block-list",
+  uploadAreaId: "edit-upload-area",
+  uploadInputId: "edit-upload-input",
+  progressId: "edit-upload-progress",
+});
 
 document.getElementById("add-text-btn").addEventListener("click", () => addBuilder.addText());
 document.getElementById("add-video-btn").addEventListener("click", () => {
@@ -773,7 +782,7 @@ document.getElementById("edit-text-btn").addEventListener("click", () => editBui
 document.getElementById("edit-video-btn").addEventListener("click", () => {
   const input = document.getElementById("edit-video-url");
   if (!editBuilder.addVideo(input.value.trim())) {
-    showStatus("Unrecognised video URL. Paste a Vimeo or YouTube link.", "err");
+    showStatus("Unrecognised video URL.", "err");
     return;
   }
   input.value = "";
@@ -804,7 +813,7 @@ async function login() {
       document.getElementById("auth-screen").style.display = "none";
       document.getElementById("admin-panel").style.display = "block";
       document.getElementById("auth-error").style.display = "none";
-      document.querySelector('[name="year"]').value = new Date().getFullYear();
+      document.querySelector('#tab-add [name="year"]').value = new Date().getFullYear();
       loadExhibitions();
     } else if (res.status === 500) {
       document.getElementById("auth-error").textContent = data.error || "Server error — check ADMIN_PASSWORD is set in CF Pages.";
@@ -834,11 +843,10 @@ document.getElementById("add-form").addEventListener("submit", async e => {
   const artistsRaw = f.artists.value.trim();
   const items = addBuilder.getItems();
 
-  // Auto-set first image as invite if none is set
-  const hasInvite = items.some(m => m.role === "invite");
-  if (!hasInvite) {
-    const firstImg = items.find(m => m.type === "image");
-    if (firstImg) firstImg.role = "invite";
+  // Auto-invite first image if none set
+  if (!items.some(m => m.role === "invite")) {
+    const first = items.find(m => m.type === "image");
+    if (first) first.role = "invite";
   }
 
   const body = {
@@ -859,7 +867,7 @@ document.getElementById("add-form").addEventListener("submit", async e => {
     if (!res.ok) throw new Error(await res.text());
     showStatus("Exhibition saved!", "ok");
     e.target.reset();
-    document.querySelector('[name="year"]').value = new Date().getFullYear();
+    document.querySelector('#tab-add [name="year"]').value = new Date().getFullYear();
     addBuilder.setItems([]);
   } catch (err) {
     showStatus("Error: " + err.message, "err");
@@ -943,10 +951,9 @@ document.getElementById("edit-form").addEventListener("submit", async e => {
   const artistsRaw = f.artists.value.trim();
   const items = editBuilder.getItems();
 
-  const hasInvite = items.some(m => m.role === "invite");
-  if (!hasInvite) {
-    const firstImg = items.find(m => m.type === "image");
-    if (firstImg) firstImg.role = "invite";
+  if (!items.some(m => m.role === "invite")) {
+    const first = items.find(m => m.type === "image");
+    if (first) first.role = "invite";
   }
 
   const body = {
