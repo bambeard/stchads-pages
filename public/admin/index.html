@@ -484,7 +484,7 @@ async function loadExhibitions() {
 }
 
 async function deleteExhibition(id) {
-  if (!confirm("Delete exhibition "" + id + ""? This cannot be undone.")) return;
+  if (!confirm("Delete exhibition '" + id + "'? This cannot be undone.")) return;
   const res = await fetch("/api/exhibitions?id=" + encodeURIComponent(id), {
     method: "DELETE",
     headers: { Authorization: "Bearer " + password },
