@@ -26,39 +26,47 @@
 
     /* Header */
     #header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 40px;
+      position: relative;
+      text-align: center;
+      margin-bottom: 60px;
+      padding-top: 20px;
     }
-
-    #header-left { flex: 1; }
 
     #site-title {
-      font-size: 14px;
+      font-size: 24px;
+      line-height: 29px;
       font-weight: normal;
-      margin-bottom: 8px;
+      margin-bottom: 15px;
     }
 
-    #address { margin-bottom: 16px; }
+    #address {
+      font-size: 12px;
+      line-height: 14px;
+      margin-bottom: 12px;
+    }
+
     #address p, #contact p { margin: 0; }
 
-    #header-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
+    #contact {
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    #instagram-logo {
+      position: absolute;
+      top: 20px;
+      right: 0;
     }
 
     #instagram-logo img {
-      width: 80px;
-      height: 80px;
+      width: 214px;
+      height: 214px;
       display: block;
     }
 
     /* Exhibitions */
     .exhibition {
-      margin-bottom: 60px;
+      margin-bottom: 100px;
     }
 
     .exhibition-media {
@@ -115,34 +123,30 @@
     }
 
     @media (max-width: 640px) {
-      #header { flex-direction: column; gap: 16px; }
-      #header-right { align-items: flex-start; }
+      #instagram-logo { position: static; margin-bottom: 16px; }
+      #instagram-logo img { width: 100px; height: 100px; margin: 0 auto; }
     }
   </style>
 </head>
 <body>
 <div id="page">
   <div id="header">
-    <div id="header-left">
-      <p id="site-title">St. Chads</p>
-      <div id="address">
-        <a href="https://goo.gl/maps/W4tXKJJZRyR8Xgb18" target="_blank" rel="noopener">
-          <p>42 Wicklow St</p>
-          <p>Kings Cross</p>
-          <p>London WC1X 9JS</p>
-          <p>&nbsp;</p>
-          <p>51°31'45.9&quot;N 0°07'05.3&quot;W</p>
-        </a>
-      </div>
-      <div id="contact">
-        <p><a href="mailto:stchadsprojects@gmail.com">stchadsprojects@gmail.com</a></p>
-        <p><a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">@stchadsprojects</a></p>
-      </div>
-    </div>
-    <div id="header-right">
-      <a id="instagram-logo" href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">
-        <img src="https://www.stchadsprojects.com/images/bumprint2.jpg" alt="St. Chads Instagram" />
+    <a id="instagram-logo" href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">
+      <img src="https://www.stchadsprojects.com/images/bumprint2.jpg" alt="St. Chads Instagram" />
+    </a>
+    <p id="site-title">St. Chads</p>
+    <div id="address">
+      <a href="https://goo.gl/maps/W4tXKJJZRyR8Xgb18" target="_blank" rel="noopener">
+        <p>42 Wicklow St</p>
+        <p>Kings Cross</p>
+        <p>London WC1X 9JS</p>
+        <p>&nbsp;</p>
+        <p>51°31'45.9&quot;N 0°07'05.3&quot;W</p>
       </a>
+    </div>
+    <div id="contact">
+      <p><a href="mailto:stchadsprojects@gmail.com">stchadsprojects@gmail.com</a></p>
+      <p><a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">@stchadsprojects</a></p>
     </div>
   </div>
 
