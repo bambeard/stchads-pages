@@ -67,13 +67,17 @@
 
     .exhibition-media img {
       display: block;
-      width: 100%;
+      max-width: 100%;
       height: auto;
       margin-bottom: 4px;
     }
 
     .exhibition-media img.invite {
-      max-width: 400px;
+      max-width: 420px;
+    }
+
+    .exhibition-media img.landscape {
+      width: 100%;
     }
 
     .video-embed {
@@ -92,9 +96,16 @@
 
     .exhibition-text {
       margin-top: 16px;
-      white-space: pre-wrap;
       font-size: 14px;
       line-height: 1.5;
+    }
+
+    .exhibition-text p {
+      margin: 0;
+    }
+
+    .exhibition-text p + p {
+      margin-top: 0.75em;
     }
 
     .loading {
@@ -163,18 +174,31 @@
 
 function renderExhibition(ex) {
   const mediaHtml = (ex.media || []).map(renderMedia).join("");
-  const desc = (ex.description || "").trim();
+  const descHtml = renderDescription(ex.description);
 
   return `<div class="exhibition" id="ex-${esc(ex.id)}">
     <div class="exhibition-media">${mediaHtml}</div>
-    ${desc ? `<div class="exhibition-text">${esc(desc)}</div>` : ""}
+    ${descHtml ? `<div class="exhibition-text">${descHtml}</div>` : ""}
   </div>`;
+}
+
+function renderDescription(text) {
+  if (!text) return "";
+  return text
+    .split("\n\n")
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)
+    .join("");
 }
 
 function renderMedia(m) {
   if (m.type === "image") {
-    const cls = m.role === "invite" ? " invite" : "";
-    return `<img class="${cls.trim()}" src="${esc(m.src)}" alt="" loading="lazy" />`;
+    const isInvite = m.role === "invite";
+    // Landscape heuristic: filename contains typical photo keywords or is not square
+    const src = m.src || "";
+    const cls = isInvite ? "invite" : "landscape";
+    return `<img class="${cls}" src="${esc(src)}" alt="" loading="lazy" />`;
   }
   if (m.type === "video") {
     let src = "";
