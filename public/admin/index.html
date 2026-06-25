@@ -9,8 +9,8 @@
 
     body {
       font-family: Times, "Times New Roman", Georgia, serif;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 18px;
+      line-height: 28px;
       color: #000;
       background: #fff;
     }
@@ -36,10 +36,10 @@
     #auth-screen input[type="password"] {
       width: 100%; padding: 6px 8px;
       border: 1px solid #000;
-      font-family: inherit; font-size: 12px;
+      font-family: inherit; font-size: inherit;
       margin-bottom: 10px;
     }
-    #auth-error { color: #c00; margin-top: 6px; font-size: 12px; display: none; }
+    #auth-error { color: #c00; margin-top: 6px; display: none; }
 
     /* ---- Tabs ---- */
     .tabs { display: flex; border-bottom: 1px solid #000; margin-bottom: 28px; }
@@ -48,7 +48,6 @@
       cursor: pointer;
       border: 1px solid transparent;
       border-bottom: none;
-      font-size: 12px;
       font-family: inherit;
       background: none;
       color: #999;
@@ -62,25 +61,24 @@
       padding: 8px 12px;
       margin-bottom: 20px;
       display: none;
-      font-size: 12px;
       border-left: 2px solid;
     }
     #status.ok { background: #f4f4f4; border-color: #000; }
     #status.err { background: #fff0f0; border-color: #c00; color: #c00; }
 
     /* ---- Section headings ---- */
-    h2 { font-size: 14px; font-weight: normal; margin-bottom: 18px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+    h2 { font-size: 18px; font-weight: normal; margin-bottom: 18px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
 
     /* ---- Form ---- */
     .form-row { margin-bottom: 16px; }
-    .form-row label { display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; }
+    .form-row label { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; }
     .form-row input,
     .form-row textarea,
     .form-row select {
       width: 100%;
       padding: 6px 8px;
       border: 1px solid #ccc;
-      font-size: 12px;
+      font-size: inherit;
       font-family: inherit;
       border-radius: 0;
       appearance: none;
@@ -90,7 +88,7 @@
     .form-row select:focus { outline: none; border-color: #000; }
     .form-row textarea { height: 80px; resize: vertical; }
     .form-row input[type="number"] { width: 90px; }
-    .form-hint { font-size: 11px; color: #999; margin-top: 4px; }
+    .form-hint { font-size: 13px; color: #999; margin-top: 4px; }
 
     /* ---- Buttons ---- */
     button, .btn {
@@ -99,7 +97,7 @@
       background: #000;
       color: #fff;
       cursor: pointer;
-      font-size: 12px;
+      font-size: inherit;
       font-family: inherit;
     }
     button:hover { background: #333; }
@@ -120,125 +118,132 @@
     }
 
     .block-list-empty {
-      padding: 20px;
+      padding: 24px;
       text-align: center;
       color: #bbb;
-      font-size: 12px;
     }
 
-    /* The outer shell of each block */
+    /* Block item: flex row — grip strip left, content right */
     .block-item {
       position: relative;
-      border-bottom: 1px solid #e8e8e8;
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid #efefef;
       background: #fff;
     }
     .block-item:last-child { border-bottom: none; }
 
-    /* Thin top bar: drag handle + type label + controls */
-    .block-bar {
+    /* Drop-line indicators — crisp 2px line between blocks */
+    .block-item.drop-above::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 2px;
+      background: #000;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .block-item.drop-below::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 2px;
+      background: #000;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .block-item.dragging { opacity: 0.3; }
+
+    /* Left grip strip */
+    .block-grip {
+      width: 28px;
+      flex-shrink: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      padding: 4px 8px;
+      padding: 12px 0 10px;
+      gap: 10px;
       background: #fafafa;
-      border-bottom: 1px solid #e8e8e8;
-      font-size: 10px;
-      color: #aaa;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      border-right: 1px solid #efefef;
       user-select: none;
     }
-    .block-handle {
-      cursor: grab;
-      font-size: 13px;
-      color: #ccc;
-      padding: 0 2px;
-      flex-shrink: 0;
-    }
-    .block-handle:active { cursor: grabbing; }
-    .block-bar-type { flex: 1; }
-    .block-bar-actions { display: flex; gap: 4px; align-items: center; }
 
-    /* Invite toggle button */
+    .block-drag-icon {
+      cursor: grab;
+      color: #c8c8c8;
+      font-size: 14px;
+      line-height: 1;
+    }
+    .block-drag-icon:active { cursor: grabbing; }
+
+    /* Star invite toggle — image blocks only */
     .invite-toggle {
-      font-size: 10px;
-      padding: 2px 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      background: #fff;
-      border: 1px solid #ccc;
-      color: #aaa;
+      background: none;
+      border: none;
       cursor: pointer;
+      font-size: 14px;
+      color: #d0d0d0;
+      padding: 0;
+      line-height: 1;
       font-family: inherit;
     }
-    .invite-toggle.active { background: #000; border-color: #000; color: #fff; }
-    .invite-toggle:hover { border-color: #000; }
+    .invite-toggle.active { color: #000; }
+    .invite-toggle:hover { background: none; color: #888; }
 
     .block-remove {
       background: none;
       border: none;
       cursor: pointer;
-      color: #ccc;
-      font-size: 16px;
-      padding: 0 2px;
+      color: #d0d0d0;
+      font-size: 18px;
+      padding: 0;
       line-height: 1;
       font-family: inherit;
+      margin-top: auto;
     }
-    .block-remove:hover { color: #c00; }
+    .block-remove:hover { color: #c00; background: none; }
 
-    /* Drag states */
-    .block-item.dragging { opacity: 0.3; }
-    .block-item.drag-over-top { box-shadow: inset 0 3px 0 #000; }
-    .block-item.drag-over-bottom { box-shadow: inset 0 -3px 0 #000; }
+    /* Content area — right side of each block */
+    .block-content { flex: 1; min-width: 0; }
 
     /* ---- Image block preview ---- */
-    /* Invite: centred, max 74% width — mirrors live site */
     .block-preview-invite {
       text-align: center;
-      padding: 12px 0;
+      padding: 16px 0;
     }
     .block-preview-invite img {
       display: inline-block;
       max-width: 74%;
-      max-height: 300px;
-      width: auto;
       height: auto;
     }
 
-    /* Regular image: 86.96% centred — mirrors live site */
     .block-preview-image {
       width: 86.96%;
-      margin: 0 auto;
-      padding: 0;
+      margin: 17px auto;
     }
     .block-preview-image img {
       display: block;
       width: 100%;
       height: auto;
-      max-height: 400px;
-      object-fit: cover;
     }
 
     /* ---- Text block preview ---- */
-    /* 86.96% centred, same font — mirrors live site */
     .block-preview-text {
       width: 86.96%;
-      margin: 12px auto;
+      margin: 16px auto;
       text-align: center;
-      font-size: 12px;
-      line-height: 14px;
     }
     .block-preview-text textarea {
       width: 100%;
       border: none;
       border-bottom: 1px dashed #ddd;
       font-family: Times, "Times New Roman", Georgia, serif;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 18px;
+      line-height: 28px;
       text-align: center;
       background: transparent;
       resize: vertical;
-      min-height: 42px;
+      min-height: 50px;
       padding: 4px 0;
       outline: none;
     }
@@ -246,10 +251,9 @@
     .block-preview-text textarea::placeholder { color: #bbb; }
 
     /* ---- Video block preview ---- */
-    /* Aspect-ratio box, 86.96% wide — mirrors live site */
     .block-preview-video {
       width: 86.96%;
-      margin: 0 auto;
+      margin: 23px auto 34px;
       position: relative;
       padding-bottom: calc(86.96% * 0.5625);
       background: #f4f4f4;
@@ -262,7 +266,6 @@
       align-items: center;
       justify-content: center;
       color: #aaa;
-      font-size: 12px;
       gap: 4px;
     }
     .block-preview-video-label strong { color: #666; }
@@ -273,13 +276,12 @@
       padding: 14px 16px;
       text-align: center;
       cursor: pointer;
-      font-size: 12px;
       color: #666;
       margin-bottom: 8px;
     }
     .upload-area:hover { background: #f9f9f9; }
     .upload-area.dragover { background: #f4f4f4; border-style: solid; }
-    .upload-progress { font-size: 11px; color: #999; min-height: 14px; margin-bottom: 6px; }
+    .upload-progress { font-size: 13px; color: #999; min-height: 18px; margin-bottom: 6px; }
 
     /* ---- Block controls bar ---- */
     .block-controls {
@@ -295,7 +297,7 @@
       padding: 6px 8px;
       border: 1px solid #ccc;
       font-family: inherit;
-      font-size: 12px;
+      font-size: inherit;
     }
     .video-input-row input:focus { outline: none; border-color: #000; }
 
@@ -304,16 +306,15 @@
       display: flex;
       align-items: baseline;
       gap: 12px;
-      padding: 9px 0;
+      padding: 10px 0;
       border-bottom: 1px solid #eee;
-      font-size: 12px;
     }
     .ex-row:last-child { border-bottom: none; }
     .ex-row-title { flex: 1; }
-    .ex-row-meta { color: #999; font-size: 11px; white-space: nowrap; }
-    .ex-badge { font-size: 10px; padding: 1px 5px; background: #000; color: #fff; text-transform: uppercase; }
+    .ex-row-meta { color: #999; font-size: 13px; white-space: nowrap; }
+    .ex-badge { font-size: 11px; padding: 1px 5px; background: #000; color: #fff; text-transform: uppercase; }
     .ex-row-actions { display: flex; gap: 4px; }
-    .ex-row-actions button { padding: 3px 8px; font-size: 11px; }
+    .ex-row-actions button { padding: 3px 8px; font-size: 13px; }
 
     /* ---- Edit modal ---- */
     #edit-overlay {
@@ -334,15 +335,15 @@
     #edit-modal-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
     #edit-modal-header h2 { border: none; padding: 0; margin: 0; font-size: 18px; }
     #edit-status {
-      margin-bottom: 14px; font-size: 12px; padding: 7px 10px; display: none; border-left: 2px solid;
+      margin-bottom: 14px; padding: 7px 10px; display: none; border-left: 2px solid;
     }
     #edit-status.ok { background: #f4f4f4; border-color: #000; display: block; }
     #edit-status.err { background: #fff0f0; border-color: #c00; color: #c00; display: block; }
 
     /* ---- Seed tab ---- */
-    #tab-seed p { color: #666; margin-bottom: 14px; line-height: 18px; }
+    #tab-seed p { color: #666; margin-bottom: 14px; }
     .seed-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .seed-note { font-size: 11px; color: #999; }
+    .seed-note { font-size: 13px; color: #999; }
   </style>
 </head>
 <body>
@@ -625,7 +626,7 @@ class MediaBuilder {
       const i = parseInt(el.dataset.i, 10);
       el.draggable = true;
 
-      el.querySelector(".block-handle").addEventListener("mousedown", () => {
+      el.querySelector(".block-drag-icon").addEventListener("mousedown", () => {
         el.draggable = true;
       });
 
@@ -636,29 +637,29 @@ class MediaBuilder {
       });
       el.addEventListener("dragend", () => {
         el.classList.remove("dragging");
-        this.listEl.querySelectorAll(".drag-over-top, .drag-over-bottom").forEach(x => {
-          x.classList.remove("drag-over-top", "drag-over-bottom");
+        this.listEl.querySelectorAll(".drop-above, .drop-below").forEach(x => {
+          x.classList.remove("drop-above", "drop-below");
         });
         this._dragIndex = -1;
       });
       el.addEventListener("dragover", e => {
         if (this._dragIndex === -1) return;
         e.preventDefault();
-        this.listEl.querySelectorAll(".drag-over-top, .drag-over-bottom").forEach(x => {
-          x.classList.remove("drag-over-top", "drag-over-bottom");
+        this.listEl.querySelectorAll(".drop-above, .drop-below").forEach(x => {
+          x.classList.remove("drop-above", "drop-below");
         });
         const rect = el.getBoundingClientRect();
-        el.classList.add(e.clientY < rect.top + rect.height / 2 ? "drag-over-top" : "drag-over-bottom");
+        el.classList.add(e.clientY < rect.top + rect.height / 2 ? "drop-above" : "drop-below");
       });
       el.addEventListener("dragleave", () => {
-        el.classList.remove("drag-over-top", "drag-over-bottom");
+        el.classList.remove("drop-above", "drop-below");
       });
       el.addEventListener("drop", e => {
         e.preventDefault();
         const from = this._dragIndex;
         if (from === -1) return;
         const to = parseInt(el.dataset.i, 10);
-        el.classList.remove("drag-over-top", "drag-over-bottom");
+        el.classList.remove("drop-above", "drop-below");
         const rect = el.getBoundingClientRect();
         let insertBefore = e.clientY < rect.top + rect.height / 2 ? to : to + 1;
         if (from === insertBefore || from + 1 === insertBefore) return;
@@ -710,32 +711,23 @@ class MediaBuilder {
 
   _blockHTML(m, i) {
     const isInvite = m.type === "image" && m.role === "invite";
-    let typeLabel = m.type;
-    if (isInvite) typeLabel = "image · invite";
 
     const inviteBtn = m.type === "image"
-      ? `<button type="button" class="invite-toggle${isInvite ? " active" : ""}" data-i="${i}" title="Mark as invite/flyer">invite</button>`
+      ? `<button type="button" class="invite-toggle${isInvite ? " active" : ""}" data-i="${i}" title="${isInvite ? "Invite/flyer image (click to unmark)" : "Mark as invite/flyer"}">★</button>`
       : "";
 
-    const bar = `<div class="block-bar">
-      <span class="block-handle" title="Drag to reorder">⠿</span>
-      <span class="block-bar-type">${typeLabel}</span>
-      <div class="block-bar-actions">
-        ${inviteBtn}
-        <button type="button" class="block-remove" data-i="${i}" title="Remove">×</button>
-      </div>
+    const grip = `<div class="block-grip">
+      <span class="block-drag-icon" title="Drag to reorder">⠿</span>
+      ${inviteBtn}
+      <button type="button" class="block-remove" data-i="${i}" title="Remove">×</button>
     </div>`;
 
     let preview = "";
     if (m.type === "image") {
       if (isInvite) {
-        preview = `<div class="block-preview-invite">
-          <img src="${esc(m.src)}" alt="" loading="lazy" />
-        </div>`;
+        preview = `<div class="block-preview-invite"><img src="${esc(m.src)}" alt="" loading="lazy" draggable="false" /></div>`;
       } else {
-        preview = `<div class="block-preview-image">
-          <img src="${esc(m.src)}" alt="" loading="lazy" />
-        </div>`;
+        preview = `<div class="block-preview-image"><img src="${esc(m.src)}" alt="" loading="lazy" draggable="false" /></div>`;
       }
     } else if (m.type === "text") {
       preview = `<div class="block-preview-text">
@@ -750,7 +742,7 @@ class MediaBuilder {
       </div>`;
     }
 
-    return `<div class="block-item" data-i="${i}">${bar}${preview}</div>`;
+    return `<div class="block-item" data-i="${i}">${grip}<div class="block-content">${preview}</div></div>`;
   }
 }
 
