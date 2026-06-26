@@ -9,8 +9,8 @@
 
     body {
       font-family: Times, "Times New Roman", Georgia, serif;
-      font-size: 16px;
-      line-height: 25px;
+      font-size: 14px;
+      line-height: 22px;
       color: #000;
       background: #fff;
     }
@@ -118,13 +118,19 @@
       height: auto;
     }
 
-    /* Text block: centred, 86.96% wide */
+    /* Text block: centred, 86.96% wide — 34px above and below */
     .ex-item.is-text {
-      margin-top: 17px;
+      margin-top: 34px;
+      padding-bottom: 17px;
       text-align: center;
       width: 86.96%;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    /* Override the 55px invite gap for text blocks */
+    .ex-item.is-invite + .ex-item.is-text {
+      margin-top: 34px;
     }
 
     .ex-item.is-text p { margin: 0; }
