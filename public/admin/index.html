@@ -63,8 +63,8 @@
       display: none;
       border-left: 2px solid;
     }
-    #status.ok { background: #f4f4f4; border-color: #000; }
-    #status.err { background: #fff0f0; border-color: #c00; color: #c00; }
+    #status.ok  { display: block; background: #f4f4f4; border-color: #000; }
+    #status.err { display: block; background: #fff0f0; border-color: #c00; color: #c00; }
 
     /* ---- Section headings ---- */
     h2 { font-size: 18px; font-weight: normal; margin-bottom: 18px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
@@ -226,7 +226,7 @@
     /* ---- Text block preview ---- */
     .block-preview-text {
       width: 86.96%;
-      margin: 16px auto;
+      margin: 34px auto;
       text-align: center;
     }
     .block-preview-text textarea {
@@ -333,8 +333,8 @@
     #edit-status {
       margin-bottom: 14px; padding: 7px 10px; display: none; border-left: 2px solid;
     }
-    #edit-status.ok { background: #f4f4f4; border-color: #000; display: block; }
-    #edit-status.err { background: #fff0f0; border-color: #c00; color: #c00; display: block; }
+    #edit-status.ok  { display: block; background: #f4f4f4; border-color: #000; }
+    #edit-status.err { display: block; background: #fff0f0; border-color: #c00; color: #c00; }
 
     /* ---- Seed tab ---- */
     #tab-seed p { color: #666; margin-bottom: 14px; }
@@ -352,7 +352,7 @@
 
   <!-- Auth -->
   <div id="auth-screen">
-    <form id="login-form" onsubmit="return false;">
+    <form id="login-form">
       <label for="password-input">Password</label>
       <input type="password" id="password-input" autocomplete="current-password" placeholder="Enter admin password" />
       <button type="submit" id="login-btn">Login</button>
@@ -505,12 +505,11 @@ function esc(s) {
   return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
+const statusEl = document.getElementById("status");
 function showStatus(msg, type) {
-  const el = document.getElementById("status");
-  el.textContent = msg;
-  el.className = type;
-  el.style.display = "block";
-  setTimeout(() => { el.style.display = "none"; }, 5000);
+  statusEl.textContent = msg;
+  statusEl.className = type;
+  setTimeout(() => { statusEl.className = ""; }, 5000);
 }
 
 function parseVideoUrl(url) {
@@ -541,12 +540,14 @@ class MediaBuilder {
     this._render();
   }
 
-  getItems() {
-    // Sync any textarea values before returning
+  _syncText() {
     this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
-      const i = parseInt(ta.dataset.i, 10);
-      if (this.items[i]) this.items[i].content = ta.value;
+      if (this.items[parseInt(ta.dataset.i, 10)]) this.items[parseInt(ta.dataset.i, 10)].content = ta.value;
     });
+  }
+
+  getItems() {
+    this._syncText();
     return this.items.slice();
   }
 
@@ -659,11 +660,7 @@ class MediaBuilder {
         const rect = el.getBoundingClientRect();
         let insertBefore = e.clientY < rect.top + rect.height / 2 ? to : to + 1;
         if (from === insertBefore || from + 1 === insertBefore) return;
-        // Sync text before mutation
-        this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
-          const idx = parseInt(ta.dataset.i, 10);
-          if (this.items[idx]) this.items[idx].content = ta.value;
-        });
+        this._syncText();
         const moved = this.items.splice(from, 1)[0];
         if (insertBefore > from) insertBefore--;
         this.items.splice(insertBefore, 0, moved);
@@ -674,10 +671,7 @@ class MediaBuilder {
     // Remove buttons
     this.listEl.querySelectorAll(".block-remove").forEach(btn => {
       btn.addEventListener("click", () => {
-        this.listEl.querySelectorAll(".block-preview-text textarea").forEach(ta => {
-          const idx = parseInt(ta.dataset.i, 10);
-          if (this.items[idx]) this.items[idx].content = ta.value;
-        });
+        this._syncText();
         this.items.splice(parseInt(btn.dataset.i, 10), 1);
         this._render();
       });
@@ -916,10 +910,9 @@ async function openEdit(id) {
 
   editBuilder.setItems(ex.media || []);
 
-  const statusEl = document.getElementById("edit-status");
-  statusEl.className = "";
-  statusEl.textContent = "";
-  statusEl.style.display = "none";
+  const editStatusEl = document.getElementById("edit-status");
+  editStatusEl.className = "";
+  editStatusEl.textContent = "";
   document.getElementById("edit-overlay").style.display = "block";
 }
 
@@ -953,6 +946,7 @@ document.getElementById("edit-form").addEventListener("submit", async e => {
     status: f.status.value,
     media: items,
   };
+  const editStatusEl = document.getElementById("edit-status");
   try {
     const res = await fetch("/api/exhibitions", {
       method: "PUT",
@@ -960,16 +954,12 @@ document.getElementById("edit-form").addEventListener("submit", async e => {
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(await res.text());
-    const statusEl = document.getElementById("edit-status");
-    statusEl.textContent = "Saved.";
-    statusEl.className = "ok";
-    statusEl.style.display = "block";
+    editStatusEl.textContent = "Saved.";
+    editStatusEl.className = "ok";
     loadExhibitions();
   } catch (err) {
-    const statusEl = document.getElementById("edit-status");
-    statusEl.textContent = "Error: " + err.message;
-    statusEl.className = "err";
-    statusEl.style.display = "block";
+    editStatusEl.textContent = "Error: " + err.message;
+    editStatusEl.className = "err";
   }
   btn.disabled = false; btn.textContent = "Save Changes";
 });
