@@ -3,258 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>St. Chads</title>
+  <title>St Chad's Projects</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: Times, "Times New Roman", Georgia, serif;
-      font-size: 14px;
-      line-height: 22px;
+      font-size: 15px;
+      line-height: 24px;
       color: #000;
       background: #fff;
     }
 
     a { color: #000; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
     #page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px 0 80px;
-    }
-
-    /* ---- Header ---- */
-    #header {
       position: relative;
-      min-height: 214px;
+      max-width: 960px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 40px 24px;
     }
 
-    #header-text {
+    #logo {
+      position: absolute;
+      top: 40px;
+      right: 24px;
+    }
+
+    #logo img {
+      width: 96px;
+      height: 96px;
+      display: block;
+    }
+
+    #content {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding-top: 71px;
+      gap: 28px;
     }
 
-    #site-title {
-      font-size: 24px;
-      line-height: 29px;
-      font-weight: normal;
-      text-decoration: underline;
-    }
-
-    #address {
-      margin-top: 15px;
-      min-height: 83px;
-      text-align: center;
-    }
+    #names p { font-size: 20px; line-height: 30px; }
 
     #address a { display: block; }
 
-    #contact { text-align: center; }
-    #contact-email { margin-top: 12px; }
-    #contact-ig    { margin-top: 4px; }
-
-    #header-logo {
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-
-    #header-logo img {
-      width: 214px;
-      height: 214px;
-      display: block;
-    }
-
-    /* ---- Exhibitions ---- */
-    #exhibitions {
-      margin-top: 158px;
-    }
-
-    /* Each exhibition block; gap between shows ~191px */
-    .exhibition + .exhibition {
-      margin-top: 191px;
-    }
-
-    /* Every media item gets a top margin by default */
-    .ex-item {
-      margin-top: 17px;
-    }
-
-    /* Invite/flyer: no top margin (it's the first item), centred */
-    .ex-item.is-invite {
-      margin-top: 0;
-      text-align: center;
-    }
-
-    .ex-item.is-invite img {
-      display: inline-block;
-      max-width: 74%;
-      height: auto;
-    }
-
-    /* Second item after invite (first photo or text) gets 55px */
-    .ex-item.is-invite + .ex-item {
-      margin-top: 55px;
-    }
-
-    .ex-item.is-image {
-      width: 86.96%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .ex-item.is-image img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    /* Text block: centred, 86.96% wide — 34px above and below */
-    .ex-item.is-text {
-      margin-top: 34px;
-      padding-bottom: 17px;
-      text-align: center;
-      width: 86.96%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Override the 55px invite gap for text blocks */
-    .ex-item.is-invite + .ex-item.is-text {
-      margin-top: 34px;
-    }
-
-    .ex-item.is-text p { margin: 0; }
-    .ex-item.is-text p + p { margin-top: 1em; }
-
-    /* Video embed */
-    .ex-item.is-video {
-      margin-top: 23px;
-    }
-
-    .video-wrap {
-      position: relative;
-      width: 86.96%;
-      margin: 0 auto;
-      padding-bottom: calc(86.96% * 0.5625);
-    }
-
-    .video-wrap iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: 0;
-    }
-
-    /* Item after video */
-    .ex-item.is-video + .ex-item {
-      margin-top: 34px;
-    }
-
-    .loading { padding: 40px 0; color: #666; }
+    #contact p + p { margin-top: 6px; }
 
     /* Mobile */
     @media (max-width: 640px) {
-      #header { min-height: auto; padding-bottom: 16px; }
-      #header-logo { position: static; text-align: center; margin-bottom: 12px; }
-      #header-logo img { width: 120px; height: 120px; display: inline-block; }
-      #header-text { padding-top: 0; }
-      #exhibitions { margin-top: 60px; }
-      .exhibition + .exhibition { margin-top: 80px; }
-      .ex-item.is-invite img { max-width: 90%; }
+      #logo { position: static; text-align: center; margin-bottom: 24px; }
+      #content { min-height: auto; }
     }
   </style>
 </head>
 <body>
 <div id="page">
 
-  <div id="header">
-    <div id="header-text">
-      <p id="site-title">St. Chads</p>
-      <div id="address">
-        <a href="https://goo.gl/maps/W4tXKJJZRyR8Xgb18" target="_blank" rel="noopener">
-          42 Wicklow St<br>
-          Kings Cross<br>
-          London WC1X 9JS<br>
-          <br>
-          51°31'45.9&quot;N 0°07'05.3&quot;W
-        </a>
-      </div>
-      <div id="contact">
-        <p id="contact-email"><a href="mailto:stchadsprojects@gmail.com">stchadsprojects@gmail.com</a></p>
-        <p id="contact-ig"><a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">@stchadsprojects</a></p>
-      </div>
-    </div>
-    <div id="header-logo">
-      <a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">
-        <img src="https://www.stchadsprojects.com/images/bumprint2.jpg" alt="St. Chads" />
-      </a>
-    </div>
+  <div id="logo">
+    <a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">
+      <img src="https://www.stchadsprojects.com/images/bumprint2.jpg" alt="St Chad's" />
+    </a>
   </div>
 
-  <div id="exhibitions">
-    <p class="loading">Loading…</p>
+  <div id="content">
+    <div id="names">
+      <p>St Chad's Projects</p>
+      <p>St Chad's Penton Rise</p>
+    </div>
+
+    <div id="address">
+      <a href="https://goo.gl/maps/W4tXKJJZRyR8Xgb18" target="_blank" rel="noopener">
+        42 Wicklow St, Kings Cross, London WC1X 9JS<br>
+        51°31'45.9"N 0°07'05.3"W
+      </a>
+    </div>
+
+    <div id="contact">
+      <p><a href="https://www.instagram.com/stchadsprojects/" target="_blank" rel="noopener">@stchadsprojects</a></p>
+      <p><a id="email-link" href="#">email</a></p>
+    </div>
   </div>
 
 </div>
 <script>
-(async function () {
-  const container = document.getElementById("exhibitions");
-  let data;
-  try {
-    const res = await fetch("/api/exhibitions");
-    data = await res.json();
-  } catch (e) {
-    container.innerHTML = "<p>Failed to load exhibitions.</p>";
-    return;
-  }
-  if (!data.exhibitions || data.exhibitions.length === 0) {
-    container.innerHTML = "";
-    return;
-  }
-  container.innerHTML = data.exhibitions.map(renderExhibition).join("");
-})();
-
-function renderExhibition(ex) {
-  const media = ex.media || [];
-  const items = media.map(renderItem).filter(Boolean);
-  return `<div class="exhibition" id="ex-${esc(ex.id)}">${items.join("")}</div>`;
-}
-
-function renderItem(m) {
-  if (m.type === "image" && m.role === "invite") {
-    return `<div class="ex-item is-invite"><img src="${esc(m.src)}" alt="" loading="lazy" /></div>`;
-  }
-  if (m.type === "image") {
-    return `<div class="ex-item is-image"><img src="${esc(m.src)}" alt="" loading="lazy" /></div>`;
-  }
-  if (m.type === "text") {
-    const content = m.content || "";
-    if (!content.trim()) return "";
-    const html = content
-      .split("\n\n")
-      .map(p => p.trim())
-      .filter(Boolean)
-      .map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)
-      .join("");
-    return `<div class="ex-item is-text">${html}</div>`;
-  }
-  if (m.type === "video") {
-    let src = "";
-    if (m.platform === "vimeo")
-      src = `https://player.vimeo.com/video/${esc(m.id)}?title=0&byline=0&portrait=0&color=FFFFFF&autoplay=0&loop=1`;
-    else if (m.platform === "youtube")
-      src = `https://www.youtube.com/embed/${esc(m.id)}?loop=1&playlist=${esc(m.id)}&showinfo=0&modestbranding=1&controls=1`;
-    if (!src) return "";
-    return `<div class="ex-item is-video"><div class="video-wrap"><iframe src="${src}" allowfullscreen></iframe></div></div>`;
-  }
-  return "";
-}
-
-function esc(s) {
-  if (s == null) return "";
-  return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-}
+  (function () {
+    var user = "stchadsprojects";
+    var host = "gmail.com";
+    document.getElementById("email-link").href = "mailto:" + user + "@" + host;
+  })();
 </script>
 </body>
 </html>
